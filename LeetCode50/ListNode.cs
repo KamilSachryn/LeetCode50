@@ -20,5 +20,11 @@ internal class ListNode
         this.next = next;
         this.val = val;
     }
+
+    public ListNode(int val)
+    {
+        this.next = null;
+        this.val = val;
+    }
 }
 
