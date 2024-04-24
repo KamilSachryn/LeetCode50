@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Numerics;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -6,7 +7,7 @@ internal class Problems
 {
     public void currentProblem()
     {
-        Console.WriteLine(MaxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }));
+        Console.WriteLine(RomanToInt("MCMXCIV"));
 
     }
 
@@ -512,6 +513,90 @@ internal class Problems
 
 
 
+
+        return output;
+    }
+
+    //12. Integer to Roman
+    public string IntToRoman(int num)
+    {
+        String output = "";
+
+        int[] integer = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        String[] roman = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+
+        int i = 0;
+        while(num > 0)
+        {
+            while (integer[i] <= num)
+            {
+                num -= integer[i];
+                output += roman[i];
+            }
+            i++;
+        }
+
+
+        return output;
+
+        /*
+        Dictionary<char, int> romanValues = new Dictionary<char, int>();
+        romanValues.Add('I', 1);
+        romanValues.Add('V', 5);
+        romanValues.Add('X', 10);
+        romanValues.Add('L', 50);
+        romanValues.Add('C', 100);
+        romanValues.Add('D', 500);
+        romanValues.Add('M', 1000);
+
+        Dictionary<int, char> intValues = new Dictionary<int, char>();
+        intValues.Add(1, 'I');
+        intValues.Add(5, 'V');
+        intValues.Add(10, 'X');
+        intValues.Add(50, 'L');
+        intValues.Add(100, 'C');
+        intValues.Add(500, 'D');
+        intValues.Add(1000, 'M');
+        */
+
+    }
+
+    //13. Roman to Integer
+    public int RomanToInt(string s)
+    {
+        int output = 0;
+
+        Dictionary<char, int> romanValues = new Dictionary<char, int>();
+        romanValues.Add('I', 1);
+        romanValues.Add('V', 5);
+        romanValues.Add('X', 10);
+        romanValues.Add('L', 50);
+        romanValues.Add('C', 100);
+        romanValues.Add('D', 500);
+        romanValues.Add('M', 1000);
+
+        
+        int prev = 0;
+        while(s.Length > 0)
+        {
+          //  Console.WriteLine(String.Format("S: {0}, output: {1}",s, output));
+            int current = romanValues[s[s.Length - 1]];
+          //  Console.WriteLine(String.Format("prev: {0}, Current: {1}",prev, current));
+            if (prev > current)
+            {
+                output -= current;
+          //      Console.WriteLine(String.Format("Prev was smaller than curr, new output: {0}",output));
+            }
+            else
+            {
+                output += current;
+          //      Console.WriteLine(String.Format("Prev was bigger than curr, new output: {0}", output));
+            }
+            prev = current;
+            
+            s = s.Substring(0, s.Length - 1);
+           // Console.WriteLine(String.Format("new Prev: {0}, newOutput: {1}, new s: {2}",prev, output, s));
+        }
 
         return output;
     }
