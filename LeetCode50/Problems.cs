@@ -7,7 +7,12 @@ internal class Problems
 {
     public void currentProblem()
     {
-        Console.WriteLine(RomanToInt("MCMXCIV"));
+        //int[] nums = { -1, 0, 1, 2, -1, -4 };
+        int[] nums = { 0,0,0, 0};
+        Print2DIList(ThreeSum(nums));
+        nums = new int[] { -1, 0, 1, 2, -1, -4 };
+        Print2DIList(ThreeSum(nums));
+        Console.WriteLine();
 
     }
 
@@ -364,6 +369,25 @@ internal class Problems
             Console.WriteLine();
         }
     }
+    public void Print2DIList(IList<IList<int>> list)
+    {
+
+
+
+        for(int i = 0; i < list.Count; i++)
+        {
+            IList<int> subList = list[i];
+            for(int j = 0; j < subList.Count;j++)
+            {
+                object obj = subList[j];
+
+                Console.Write(obj);
+               
+            }
+            Console.WriteLine();
+        }
+    }
+
 
     //#7. Reverse Integer
     public int Reverse(int x)
@@ -596,6 +620,72 @@ internal class Problems
             
             s = s.Substring(0, s.Length - 1);
            // Console.WriteLine(String.Format("new Prev: {0}, newOutput: {1}, new s: {2}",prev, output, s));
+        }
+
+        return output;
+    }
+
+    //15. 3Sum
+    public IList<IList<int>> ThreeSum(int[] nums)
+    {
+        Array.Sort(nums);
+        List<IList<int>> output = new List<IList<int>>();
+
+        HashSet<int[]> set = new HashSet<int[]>();
+        int left = 0;
+        int mid = left + 1;
+        int right = nums.Length - 1;
+        while (left < right && left < nums.Length - 2)
+        {
+            if (left > 0 && nums[left] == nums[left - 1])
+            {
+                left++;
+                continue;
+            }
+            while (mid < right)
+            {
+
+                int l = nums[left];
+                int m = nums[mid];
+                int r = nums[right];
+
+                Console.WriteLine(String.Format("left: {0}, mid: {1}, right: {2}, l: {3}, m: {4}, r: {5}", left, mid, right, l, m, r));
+                if (l + m + r == 0)
+                {
+                    Console.WriteLine("l + m + r adds to 0");
+                    output.Add(new int[] { l, m, r });
+
+                    while (mid < right && nums[mid + 1] == m)
+                    {
+                        mid++;
+                    }
+                    while (mid < right && nums[right - 1] == r)
+                    {
+                        right--;
+                    }
+                    mid++;
+                    right--;
+
+                }
+                else
+                {
+                    if (l + m + r < 0)
+                    {
+                        mid++;
+                    }
+                    else
+                    {
+                        right--;
+                    }
+                }
+
+
+
+
+            }
+            left++;
+            mid = left + 1;
+            right = nums.Length - 1;
         }
 
         return output;
