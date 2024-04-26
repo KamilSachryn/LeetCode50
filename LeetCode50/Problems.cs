@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using static System.Net.Mime.MediaTypeNames;
 
 internal class Problems
@@ -8,11 +9,10 @@ internal class Problems
     public void currentProblem()
     {
         //int[] nums = { -1, 0, 1, 2, -1, -4 };
-        int[] nums = { 0,0,0, 0};
-        Print2DIList(ThreeSum(nums));
-        nums = new int[] { -1, 0, 1, 2, -1, -4 };
-        Print2DIList(ThreeSum(nums));
-        Console.WriteLine();
+        int[] nums = new int[] { 0, 1, 2};
+        int target = 3;
+        
+        Console.WriteLine(ThreeSumClosest(nums, target));
 
     }
 
@@ -631,35 +631,28 @@ internal class Problems
         Array.Sort(nums);
         List<IList<int>> output = new List<IList<int>>();
 
-        HashSet<int[]> set = new HashSet<int[]>();
-        int left = 0;
-        int mid = left + 1;
-        int right = nums.Length - 1;
-        while (left < right && left < nums.Length - 2)
+        for (int left = 0; left < nums.Length - 2; left++)
         {
             if (left > 0 && nums[left] == nums[left - 1])
             {
-                left++;
                 continue;
             }
+            int mid = left + 1;
+            int right = nums.Length - 1;
+
             while (mid < right)
             {
-
-                int l = nums[left];
-                int m = nums[mid];
-                int r = nums[right];
-
-                Console.WriteLine(String.Format("left: {0}, mid: {1}, right: {2}, l: {3}, m: {4}, r: {5}", left, mid, right, l, m, r));
-                if (l + m + r == 0)
+                int sum = nums[left] + nums[mid] + nums[right];
+                if (sum == 0)
                 {
-                    Console.WriteLine("l + m + r adds to 0");
-                    output.Add(new int[] { l, m, r });
+                    output.Add(new int[] { nums[left], nums[mid], nums[right] });
 
-                    while (mid < right && nums[mid + 1] == m)
+                    while (mid < right && nums[mid] == nums[mid + 1])
                     {
                         mid++;
                     }
-                    while (mid < right && nums[right - 1] == r)
+
+                    while (mid < right && nums[right] == nums[right - 1])
                     {
                         right--;
                     }
@@ -667,27 +660,66 @@ internal class Problems
                     right--;
 
                 }
-                else
+                else if (sum < 0)
                 {
-                    if (l + m + r < 0)
-                    {
-                        mid++;
-                    }
-                    else
-                    {
-                        right--;
-                    }
+                    mid++;
+                }
+                else if (sum > 0)
+                {
+                    right--;
                 }
 
 
 
-
             }
-            left++;
-            mid = left + 1;
-            right = nums.Length - 1;
         }
 
         return output;
+
+    }
+
+    //16. 3Sum Closest
+    public int ThreeSumClosest(int[] nums, int target)
+    {
+        int output = 0;
+        int bestDiff = int.MaxValue;
+        Array.Sort(nums);
+
+        for(int left = 0; left < nums.Length - 2; left++)
+        {
+
+            int mid = left + 1;
+            int right = nums.Length - 1;
+
+            while(mid < right)
+            {
+                int sum = nums[left] + nums[mid] + nums[right];
+
+                if (sum == target)
+                {
+                    return sum;
+                }
+
+                int diff = Math.Abs(target - sum);
+
+
+                if(diff < bestDiff)
+                {
+                    bestDiff = diff;
+                    output = sum;
+                }
+
+                if(sum < target)
+                {
+                    mid++;
+                }
+                else if(sum > target)
+                {
+                    right--;
+                }
+            }
+        }
+        return output;
+
     }
 }
