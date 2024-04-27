@@ -2,17 +2,23 @@
 using System.Collections;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 internal class Problems
 {
     public void currentProblem()
     {
-        //int[] nums = { -1, 0, 1, 2, -1, -4 };
-        int[] nums = new int[] { 0, 1, 2};
-        int target = 3;
-        
-        Console.WriteLine(ThreeSumClosest(nums, target));
+        ListNode problem = new ListNode();
+        problem.val = 1;
+        problem.next = new ListNode(2, null);
+
+        ListNode tmp = RemoveNthFromEnd(problem, 2);
+        while (tmp != null)
+        {
+            Console.Write(tmp.val + ", ");
+            tmp = tmp.next;
+        }
 
     }
 
@@ -720,6 +726,87 @@ internal class Problems
             }
         }
         return output;
+
+    }
+
+    //17. Letter Combinations of a Phone Number
+    public IList<string> LetterCombinations(string digits)
+    {
+
+        List<string> output = new List<string>();
+        if (digits.Length == 0)
+        {
+            return output;
+        }
+        output.Add("");
+
+        Dictionary<int, string> phone = new Dictionary<int, string>();
+        phone.Add('2', "abc");
+        phone.Add('3', "def");
+        phone.Add('4', "ghi");
+        phone.Add('5', "jkl");
+        phone.Add('6', "mno");
+        phone.Add('7', "pqrs");
+        phone.Add('8', "tuv");
+        phone.Add('9', "wxyz");
+
+        for (int i = 0; i < digits.Length; i++)
+        {
+            string currChars = phone[digits[i]];
+            List<string> tmp = new List<string>();
+            foreach (Char c in currChars)
+            {
+                foreach (string s in output)
+                {
+                    tmp.Add(s + c);
+                }
+            }
+            output = tmp;
+        }
+        return output;
+    }
+
+    //19. Remove Nth Node From End of List
+    public ListNode RemoveNthFromEnd(ListNode head, int n)
+    {
+        if(head.next == null && n == 1)
+        {
+            return null;
+        }
+        
+        ListNode outputHead = head;
+        ListNode right = outputHead.next;
+        ListNode left = head;
+        int steps = 0;
+        while(right != null)
+        {
+            if(steps != n - 1)
+            {
+                right = right.next;
+                steps++;
+            }
+            else
+            {
+                //at last step
+                if(right.next == null)
+                {
+                    left.next = left.next.next;
+                    return outputHead;
+                }
+                else
+                {
+                    right = right.next;
+                    left = left.next;
+                }
+            }
+
+        }
+        if(left == head)
+        {
+            return head.next;
+        }
+        return null;
+
 
     }
 }
