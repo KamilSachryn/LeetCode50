@@ -809,4 +809,108 @@ internal class Problems
 
 
     }
+
+    //20. Valid Parentheses
+    public bool IsValid(string s)
+    {
+        Stack<char> stack = new Stack<char>();
+        
+        foreach(char c in s)
+        {
+            switch(c)
+            {
+                case '{':
+                case '(':
+                case '[':
+                    stack.Push(c);
+                    break;
+                case '}':
+                case ']':
+                case ')':
+                    if(stack.Count == 0)
+                    {
+                        return false;
+                    }
+                    char top = stack.Pop();
+                    if(top != oppositeParenthesis(c))
+                    {
+                        return false;
+                    }
+                    break;
+
+            }
+        }
+
+        if (stack.Count == 0)
+            return true;
+        else
+            return false;
+
+
+    }
+
+    char oppositeParenthesis(char c)
+    {
+        switch (c)
+        {
+            case '}':
+                return '{'; 
+            case ')':
+                return '(';
+            case ']':
+                return '[';
+            case '(':
+                return ')';
+            case '{':
+                return '}';
+            case '[':
+                return ']';
+        }
+
+        return '\0';
+
+    }
+
+    //21. Merge Two Sorted Lists
+    public ListNode MergeTwoLists(ListNode list1, ListNode list2)
+    {
+        ListNode sorted = new ListNode();
+        ListNode sortedHead = sorted;
+
+        while(list1 != null || list2 != null)
+        {
+            if(list1 != null && list2 != null)
+            {
+                if(list1.val < list2.val)
+                {
+
+                    sorted.next = new ListNode(list1.val);
+                    sorted = sorted.next;
+                    list1 = list1.next;
+
+                }
+                else
+                {
+                    sorted.next = new ListNode(list2.val);
+                    sorted = sorted.next;
+                    list2 = list2.next;
+                }
+            }
+            else if(list1 != null)
+            {
+                sorted.next = new ListNode(list1.val);
+                sorted = sorted.next;
+                list1 = list1.next;
+            }
+            else
+            {
+                sorted.next = new ListNode(list2.val);
+                sorted = sorted.next;
+                list2 = list2.next;
+            }
+        }
+
+        return sortedHead.next;
+
+    }
 }
