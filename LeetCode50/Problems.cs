@@ -9,19 +9,50 @@ internal class Problems
 {
     public void currentProblem()
     {
-        ListNode problem = new ListNode();
-        problem.val = 1;
-        problem.next = new ListNode(2, null);
+        IList<string> problem = GenerateParenthesis(4);
 
-        ListNode tmp = RemoveNthFromEnd(problem, 2);
-        while (tmp != null)
+        foreach(string problemItem in problem)
         {
-            Console.Write(tmp.val + ", ");
-            tmp = tmp.next;
+            Console.Write( problemItem + ", ");
         }
 
     }
 
+
+    //22. Generate Parentheses
+    public IList<string> GenerateParenthesis(int n)
+    {
+        List<string> output = new List<string>();
+
+
+        genParen("", n, n, output, 0);
+
+
+        return output;
+    }
+
+    void genParen(string str, int left, int right, List<string> list, int validClose)
+    {
+        
+        if (left == 0 && right == 0)
+        {
+            list.Add(str);
+            return;
+        }
+
+        if (left > 0)
+        {
+            genParen(str + "(", left - 1, right, list, validClose + 1);
+        }
+        if (validClose > 0)
+        {
+            genParen(str + ")", left, right - 1, list, validClose - 1);
+        }
+
+
+
+
+    }
 
 
     //#1. Two Sum
@@ -913,4 +944,8 @@ internal class Problems
         return sortedHead.next;
 
     }
+
+
+
+
 }
