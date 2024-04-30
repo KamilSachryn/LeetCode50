@@ -9,15 +9,112 @@ internal class Problems
 {
     public void currentProblem()
     {
-        IList<string> problem = GenerateParenthesis(4);
+        List<int> prob1 = new List<int>() { 1,4,5};
+        List<int> prob2 = new List<int>() { 1,3,4};
+        List<int> prob3 = new List<int>() { 2,6};
 
-        foreach(string problemItem in problem)
+ 
+        ListNode[] lists = { null};
+        //ListNode[] lists = { generateLinkedList(prob1), generateLinkedList(prob2), generateLinkedList(prob3) };
+
+        List<int> output = linkedListToList(MergeKLists(lists));
+        foreach(int i in output)
         {
-            Console.Write( problemItem + ", ");
+            Console.Write(i + "->");
         }
+
+        Console.WriteLine();
+        Console.WriteLine("Expected 1->1->2->3->4->4->5->6");
 
     }
 
+
+
+    //23. Merge k Sorted Lists
+    public ListNode MergeKLists(ListNode[] lists)
+    {
+
+
+        List<ListNode> temp = new List<ListNode>();
+
+        foreach(ListNode l in lists)
+        {
+            if(l != null)
+                temp.Add(l);
+        }
+
+        lists = temp.ToArray();
+
+        if (lists.Length == 0)
+        {
+            return null;
+        }
+
+
+        ListNode output = new ListNode();
+        ListNode outputHead = output;
+        Boolean finished = false;
+
+
+        int currentLowest = lists[0].val;
+        int lowestID = 0;
+        while (!finished)
+        {
+            finished = true;
+            for (int i = 0; i < lists.Length; i++)
+            {
+                ListNode currentHead = lists[i];
+                if (currentHead != null)
+                {
+                    finished = false;
+                    if (currentHead.val < currentLowest)
+                    {
+                        currentLowest = currentHead.val;
+                        lowestID = i;
+                        
+                    }
+                }
+                
+            }
+            if(finished) break;
+
+            output.next = new ListNode(currentLowest);
+            output = output.next;
+            Console.WriteLine("Lowest val was " + currentLowest + " on listid " + lowestID);
+            lists[lowestID] = lists[lowestID].next;
+            currentLowest = int.MaxValue;
+        }
+
+        return outputHead.next;
+    }
+
+    ListNode generateLinkedList(List<int> arr)
+    {
+        ListNode result = new ListNode();
+        ListNode resultHead = result;
+
+        foreach(int i in arr)
+        {
+            result.next = new ListNode(i);
+            result = result.next;
+        }
+
+        return resultHead.next;
+    }
+
+    List<int> linkedListToList(ListNode head)
+    {
+        List<int> output = new List<int>();
+
+        while(head != null)
+        {
+            output.Add(head.val);
+            head = head.next;
+        }
+
+        return output;
+
+    }
 
     //22. Generate Parentheses
     public IList<string> GenerateParenthesis(int n)
