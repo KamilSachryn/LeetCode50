@@ -9,26 +9,65 @@ internal class Problems
 {
     public void currentProblem()
     {
-        List<int> prob1 = new List<int>() { 1,4,5};
-        List<int> prob2 = new List<int>() { 1,3,4};
-        List<int> prob3 = new List<int>() { 2,6};
+        List<int> prob1 = new List<int>() { 1,2,3,4};
 
- 
-        ListNode[] lists = { null};
         //ListNode[] lists = { generateLinkedList(prob1), generateLinkedList(prob2), generateLinkedList(prob3) };
 
-        List<int> output = linkedListToList(MergeKLists(lists));
+        Console.WriteLine();
+        List<int> output = linkedListToList(SwapPairs(generateLinkedList(prob1)));
+
         foreach(int i in output)
         {
             Console.Write(i + "->");
         }
 
-        Console.WriteLine();
-        Console.WriteLine("Expected 1->1->2->3->4->4->5->6");
 
     }
 
+    //24. Swap Nodes in Pairs
+    public ListNode SwapPairs(ListNode head)
+    {
 
+        
+
+        if(head == null)
+        {
+            return null;
+        }
+        if(head.next == null)
+        {
+            return head;
+        }
+        ListNode headPtr = head;
+        ListNode left = head;
+        ListNode right = head.next;
+        ListNode nextHead = head.next.next;
+        while (nextHead != null)
+        {
+            Console.WriteLine(nextHead.val);
+            
+
+
+            ListNode tmp = left;
+
+            left = right;
+            right = tmp;
+            left.next = right;
+            right.next = nextHead;
+            nextHead = nextHead.next;
+
+
+
+
+
+        }
+
+
+
+            return head;
+
+
+    }
 
     //23. Merge k Sorted Lists
     public ListNode MergeKLists(ListNode[] lists)
