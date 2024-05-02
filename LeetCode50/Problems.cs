@@ -9,12 +9,13 @@ internal class Problems
 {
     public void currentProblem()
     {
-        List<int> prob1 = new List<int>() { 1,2,3,4};
+        List<int> prob1 = new List<int>() { 1,2,3,4,5,6};
 
         //ListNode[] lists = { generateLinkedList(prob1), generateLinkedList(prob2), generateLinkedList(prob3) };
 
-        Console.WriteLine();
-        List<int> output = linkedListToList(SwapPairs(generateLinkedList(prob1)));
+        ListNode prob = generateLinkedList(prob1);
+        ListNode ans = SwapPairs(prob);
+        List<int> output = linkedListToList(ans);
 
         foreach(int i in output)
         {
@@ -27,9 +28,6 @@ internal class Problems
     //24. Swap Nodes in Pairs
     public ListNode SwapPairs(ListNode head)
     {
-
-        
-
         if(head == null)
         {
             return null;
@@ -38,35 +36,36 @@ internal class Problems
         {
             return head;
         }
+
         ListNode headPtr = head;
         ListNode left = head;
         ListNode right = head.next;
-        ListNode nextHead = head.next.next;
-        while (nextHead != null)
+        ListNode nextNode = head.next.next;
+        ListNode tmp = left;
+        left = right;
+        right = tmp;
+        left.next = right;
+        right.next = nextNode;
+        headPtr = left;
+        ListNode prevNode = right;
+
+        while(right != null && nextNode != null)
         {
-            Console.WriteLine(nextHead.val);
-            
-
-
-            ListNode tmp = left;
-
-            left = right;
-            right = tmp;
-            left.next = right;
-            right.next = nextHead;
-            nextHead = nextHead.next;
-
-
-
-
-
+            left = nextNode;
+            right = left.next;
+            if (right != null)
+            {
+                nextNode = right.next;
+                tmp = left;
+                left = right;
+                right = tmp;
+                left.next = right;
+                right.next = nextNode;
+                prevNode.next = left;
+                prevNode = right;
+            }
         }
-
-
-
-            return head;
-
-
+        return headPtr;
     }
 
     //23. Merge k Sorted Lists
