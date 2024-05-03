@@ -13,6 +13,35 @@ internal class ListNode
         this.val = val;
         this.next = next;
     }
-  
+
+
+    public static ListNode generateLinkedList(List<int> arr)
+    {
+        ListNode result = new ListNode();
+        ListNode resultHead = result;
+
+        foreach (int i in arr)
+        {
+            result.next = new ListNode(i);
+            result = result.next;
+        }
+
+        return resultHead.next;
+    }
+
+    public static List<int> linkedListToList(ListNode head)
+    {
+        List<int> output = new List<int>();
+
+        while (head != null)
+        {
+            output.Add(head.val);
+            head = head.next;
+        }
+
+        return output;
+
+    }
+
 }
 

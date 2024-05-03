@@ -9,21 +9,46 @@ internal class Problems
 {
     public void currentProblem()
     {
-        List<int> prob1 = new List<int>() { 1,2,3,4,5,6};
+        List<int> probArr = new List<int> { 1, 2, 3, 4, 5 };
 
-        //ListNode[] lists = { generateLinkedList(prob1), generateLinkedList(prob2), generateLinkedList(prob3) };
+        ListNode prob = ListNode.generateLinkedList(probArr);
 
-        ListNode prob = generateLinkedList(prob1);
-        ListNode ans = SwapPairs(prob);
-        List<int> output = linkedListToList(ans);
+        List<int> output = ListNode.linkedListToList(ReverseList(prob).next);
 
         foreach(int i in output)
         {
-            Console.Write(i + "->");
+            Console.Write(i + ", ");
         }
 
 
     }
+
+
+    //206. Reverse Linked List
+    public ListNode ReverseList(ListNode head)
+    {
+        ListNode node = new ListNode();
+        return rev(node, head).next;
+
+    }
+
+    ListNode rev(ListNode newHead, ListNode currHead)
+    {
+        if(currHead == null || currHead.next == null)
+        {
+            return currHead;
+        }
+
+        newHead = rev(newHead, currHead.next);
+
+
+
+
+    }
+
+
+
+
 
     //24. Swap Nodes in Pairs
     public ListNode SwapPairs(ListNode head)
@@ -126,33 +151,7 @@ internal class Problems
         return outputHead.next;
     }
 
-    ListNode generateLinkedList(List<int> arr)
-    {
-        ListNode result = new ListNode();
-        ListNode resultHead = result;
 
-        foreach(int i in arr)
-        {
-            result.next = new ListNode(i);
-            result = result.next;
-        }
-
-        return resultHead.next;
-    }
-
-    List<int> linkedListToList(ListNode head)
-    {
-        List<int> output = new List<int>();
-
-        while(head != null)
-        {
-            output.Add(head.val);
-            head = head.next;
-        }
-
-        return output;
-
-    }
 
     //22. Generate Parentheses
     public IList<string> GenerateParenthesis(int n)
