@@ -13,7 +13,7 @@ internal class Problems
 
         ListNode prob = ListNode.generateLinkedList(probArr);
 
-        List<int> output = ListNode.linkedListToList(ReverseList(prob).next);
+        List<int> output = ListNode.linkedListToList(ReverseList(prob));
 
         foreach(int i in output)
         {
@@ -27,24 +27,78 @@ internal class Problems
     //206. Reverse Linked List
     public ListNode ReverseList(ListNode head)
     {
-        ListNode node = new ListNode();
-        return rev(node, head).next;
+        return rev(head, null);
 
     }
 
-    ListNode rev(ListNode newHead, ListNode currHead)
+    ListNode rev(ListNode node, ListNode prev)
     {
-        if(currHead == null || currHead.next == null)
         {
-            return currHead;
+            Console.Write("Start: Node: [");
+            foreach (int i in ListNode.linkedListToList(node))
+            {
+                Console.Write(i + ", ");
+            }
+            Console.Write("] prev: [");
+            foreach (int i in ListNode.linkedListToList(prev))
+            {
+                Console.Write(i + ", ");
+            }
+            Console.WriteLine("]\n");
         }
+        if (node == null)
+        {
+            return prev;
+        }
+        
 
-        newHead = rev(newHead, currHead.next);
+        ListNode tmp = node.next;
+        node.next = prev;
 
-
-
-
+        {
+            Console.Write("End: Node: [");
+            foreach (int i in ListNode.linkedListToList(tmp))
+            {
+                Console.Write(i + ", ");
+            }
+            Console.Write("] prev: [");
+            foreach (int i in ListNode.linkedListToList(node))
+            {
+                Console.Write(i + ", ");
+            }
+            Console.WriteLine("]\n");
+        }
+        return rev(tmp, node);
     }
+
+    /*
+    node: [1,2,3,4,5]
+    prev: [null]
+    
+    node: [2,3,4,5]
+    prev: [1]
+    
+    node: [1,2,3,4,5]
+    prev: [null]
+    
+    node: [1,2,3,4,5]
+    prev: [null]
+    
+    node: [1,2,3,4,5]
+    prev: [null]
+    
+    node: [1,2,3,4,5]
+    prev: [null]
+    
+    node: [1,2,3,4,5]
+    prev: [null]
+
+
+
+
+
+    */
+
 
 
 
