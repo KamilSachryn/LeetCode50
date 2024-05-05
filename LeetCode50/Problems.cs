@@ -9,18 +9,62 @@ internal class Problems
 {
     public void currentProblem()
     {
-        List<int> probArr = new List<int> { 1, 2, 3, 4, 5 };
+        List<int> probArr = new List<int> { -10, -3, 0, 5, 9 };
 
-        ListNode prob = ListNode.generateLinkedList(probArr);
+        TreeNode output = SortedArrayToBST(probArr.ToArray());
 
-        List<int> output = ListNode.linkedListToList(ReverseList(prob));
 
-        foreach(int i in output)
+        TreeNode test = new TreeNode(10);
+        test.left = new TreeNode(5);
+        test.left.left = new TreeNode(1);
+        test.left.right = new TreeNode(7);
+        test.right = new TreeNode(20);
+        test.right.left = new TreeNode(23);
+        test.right.right = new TreeNode(25);
+
+        PrintTree(output);
+        
+        
+
+    }
+
+
+    //108. Convert Sorted Array to Binary Search Tree
+    public TreeNode SortedArrayToBST(int[] nums)
+    {
+        if (nums.Length == 0)
+            return null;
+
+        int middle = nums.Length / 2;
+
+        TreeNode root = new TreeNode(nums[middle]);
+
+
+        int[] left = new int[nums.Length / 2];
+        Array.Copy(nums, left, nums.Length / 2);
+        root.left = SortedArrayToBST(left);
+        if (nums.Length / 2 - 1 >= 0)
         {
-            Console.Write(i + ", ");
+            int[] right = new int[nums.Length / 2 - 1];
+            Array.Copy(nums, nums.Length / 2 + 1, right, 0, nums.Length / 2 - 1);
+
+            root.right = SortedArrayToBST(right);
         }
 
 
+        
+
+        return root;
+
+    }
+
+    void PrintTree(TreeNode node)
+    {
+        if (node == null) return;
+
+        Console.WriteLine( node.val);
+        PrintTree(node.left);
+        PrintTree(node.right);
     }
 
 
