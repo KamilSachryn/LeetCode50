@@ -9,63 +9,48 @@ internal class Problems
 {
     public void currentProblem()
     {
-        List<int> probArr = new List<int> { -10, -3, 0, 5, 9 };
+        List<int> probArr = new List<int> {1 };
 
-        TreeNode output = SortedArrayToBST(probArr.ToArray());
-
-
-        TreeNode test = new TreeNode(10);
-        test.left = new TreeNode(5);
-        test.left.left = new TreeNode(1);
-        test.left.right = new TreeNode(7);
-        test.right = new TreeNode(20);
-        test.right.left = new TreeNode(23);
-        test.right.right = new TreeNode(25);
-
-        PrintTree(output);
-        
+        Console.WriteLine(SearchInsert(probArr.ToArray(), 1));
         
 
     }
 
 
-    //108. Convert Sorted Array to Binary Search Tree
-    public TreeNode SortedArrayToBST(int[] nums)
+    //35. Search Insert Position
+    public int SearchInsert(int[] nums, int target)
     {
         if (nums.Length == 0)
-            return null;
+            return 0;
 
-        int middle = nums.Length / 2;
+        int left = 0;
+        int right = nums.Length;
+        if (target > nums[right - 1]) 
+            return right;
 
-        TreeNode root = new TreeNode(nums[middle]);
-
-
-        int[] left = new int[nums.Length / 2];
-        Array.Copy(nums, left, nums.Length / 2);
-        root.left = SortedArrayToBST(left);
-        if (nums.Length / 2 - 1 >= 0)
+        while(left <= right)
         {
-            int[] right = new int[nums.Length / 2 - 1];
-            Array.Copy(nums, nums.Length / 2 + 1, right, 0, nums.Length / 2 - 1);
+            int mid = (left + right) / 2;
 
-            root.right = SortedArrayToBST(right);
+            if (nums[mid] == target)
+                return mid;
+
+            if (nums[mid] <= target)
+            {
+                left = mid + 1;
+            }
+            else
+
+            {
+                right = mid - 1;
+            }
         }
 
+        return left;
 
-        
-
-        return root;
 
     }
 
-    void PrintTree(TreeNode node)
-    {
-        if (node == null) return;
-
-        Console.WriteLine( node.val);
-        PrintTree(node.left);
-        PrintTree(node.right);
-    }
 
 
     //206. Reverse Linked List
@@ -1172,12 +1157,6 @@ internal class Problems
                 list2 = list2.next;
             }
         }
-
         return sortedHead.next;
-
     }
-
-
-
-
 }
