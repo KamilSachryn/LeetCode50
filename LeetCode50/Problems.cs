@@ -9,13 +9,81 @@ internal class Problems
 {
     public void currentProblem()
     {
-        List<int> probArr = new List<int> {1,2,3};
-
-        foreach(int i in PlusOne(probArr.ToArray()))
-            {
-            Console.Write(i + ", ");
-        }
+        string a = "1010";
+        string b = "1001";
+        string output = AddBinary(a, b);
+        Console.WriteLine(output);
         
+
+    }
+
+    //67. Add Binary
+    public string AddBinary(string a, string b)
+    {
+        int ptrA = a.Length - 1;
+        int ptrB = b.Length - 1;
+        string output = "";
+        int carry = 0;
+        
+
+        while( ptrA > 0 || ptrB > 0 )
+        {
+            if(ptrA > 0 && ptrB > 0)
+            {
+                int aa = a[ptrA] == '1' ? 1 : 0;
+                int bb = b[ptrB] == '1' ? 1 : 0;
+
+                int sum = aa + bb + carry;
+                if (sum == 2)
+                {
+                    
+                    output = output.Insert(0, "0");
+                    carry = 1;
+                }
+                else
+                {
+                    output = output.Insert(0, sum.ToString());
+                }
+                ptrA--;
+                ptrB--;
+            }
+
+            else if(ptrA > 0)
+            {
+                int aa = a[ptrA] == '1' ? 1 : 0;
+                int sum = aa + carry;
+                if (sum == 2)
+                {
+                    output = output.Insert(0, "0");
+                    carry = 1;
+                }
+                else
+                {
+                    output = output.Insert(0, sum.ToString());
+                }
+                ptrA--;
+            }
+            else if(ptrB > 0)
+            {
+                int bb = b[ptrB] == '1' ? 1 : 0;
+                int sum = bb + carry;
+                if (sum == 2)
+                {
+                    output = output.Insert(0, "0");
+                    carry = 1;
+                }
+                else
+                {
+                    output = output.Insert(0, sum.ToString());
+                }
+                ptrB--;
+            }
+        }
+
+        output = output.Insert(0, carry.ToString());
+
+        return output;
+
 
     }
 
