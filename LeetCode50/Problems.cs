@@ -9,12 +9,43 @@ internal class Problems
 {
     public void currentProblem()
     {
-        string a = "000000000101";
+        string a = "0";
         string b = "1";
-        string output = AddBinary(a, b);
+        //string output = AddBinary(a, b);
+        int output = MySqrt(16);
         Console.WriteLine(output);
         
 
+    }
+
+    //69. Sqrt(x)
+    public int MySqrt(int x)
+    {
+        if (x == 0)
+            return 0;
+        int left = 0;
+        int right = x / 2;
+        int best = 1;
+        while(left != right)
+        {
+            Console.WriteLine("Left: " + left + ", Right: " + right);
+            int lPow = (int)Math.Pow(left, 2);
+            int rPow = (int)Math.Pow(right, 2);
+            if (lPow == x)
+                return left;
+            else if (rPow == x)
+                return right;
+
+            if (lPow > x)
+                left /= 2;
+            if(rPow < x)
+                right *= 2;
+            best = left;
+            
+
+        }
+
+        return best;
     }
 
     //67. Add Binary
