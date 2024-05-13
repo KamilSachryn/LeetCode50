@@ -9,8 +9,8 @@ internal class Problems
 {
     public void currentProblem()
     {
-        string a = "1010";
-        string b = "1001";
+        string a = "000000000101";
+        string b = "1";
         string output = AddBinary(a, b);
         Console.WriteLine(output);
         
@@ -26,9 +26,9 @@ internal class Problems
         int carry = 0;
         
 
-        while( ptrA > 0 || ptrB > 0 )
+        while( ptrA >= 0 || ptrB >= 0 )
         {
-            if(ptrA > 0 && ptrB > 0)
+            if (ptrA >= 0 && ptrB >= 0)
             {
                 int aa = a[ptrA] == '1' ? 1 : 0;
                 int bb = b[ptrB] == '1' ? 1 : 0;
@@ -36,19 +36,25 @@ internal class Problems
                 int sum = aa + bb + carry;
                 if (sum == 2)
                 {
-                    
+
                     output = output.Insert(0, "0");
+                    carry = 1;
+                }
+                else if (sum == 3)
+                {
+
+                    output = output.Insert(0, "1");
                     carry = 1;
                 }
                 else
                 {
+                    carry = 0;
                     output = output.Insert(0, sum.ToString());
                 }
-                ptrA--;
-                ptrB--;
+                    ptrA--;
+                    ptrB--;
             }
-
-            else if(ptrA > 0)
+            else if(ptrA >= 0)
             {
                 int aa = a[ptrA] == '1' ? 1 : 0;
                 int sum = aa + carry;
@@ -59,11 +65,12 @@ internal class Problems
                 }
                 else
                 {
+                    carry = 0;
                     output = output.Insert(0, sum.ToString());
                 }
                 ptrA--;
             }
-            else if(ptrB > 0)
+            else if(ptrB >= 0)
             {
                 int bb = b[ptrB] == '1' ? 1 : 0;
                 int sum = bb + carry;
@@ -74,13 +81,19 @@ internal class Problems
                 }
                 else
                 {
+                    carry = 0;
                     output = output.Insert(0, sum.ToString());
                 }
                 ptrB--;
             }
         }
+        if(carry == 1)
+            output = output.Insert(0, "1");
+        
+        output = output.TrimStart('0');
 
-        output = output.Insert(0, carry.ToString());
+        if (output.Length == 0)
+            output = "0";
 
         return output;
 
