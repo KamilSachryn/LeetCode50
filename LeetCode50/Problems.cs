@@ -18,6 +18,69 @@ internal class Problems
 
     }
 
+
+    /*
+    public IList<string> GenerateParenthesis(int n)
+    {
+        List<string> output = new List<string>();
+
+
+        genParen("", n, n, output, 0);
+
+
+        return output;
+    }
+
+    void genParen(string str, int left, int right, List<string> list, int validClose)
+    {
+        
+        if (left == 0 && right == 0)
+        {
+            list.Add(str);
+            return;
+        }
+
+        if (left > 0)
+        {
+            genParen(str + "(", left - 1, right, list, validClose + 1);
+        }
+        if (validClose > 0)
+        {
+            genParen(str + ")", left, right - 1, list, validClose - 1);
+        }
+
+
+
+
+    }
+
+     */
+
+    //70. Climbing Stairs
+    public int ClimbStairs(int n)
+    {
+        if (n <= 0)
+            return 0;
+
+
+        
+
+
+
+    }
+
+    public int ClimbStairsRec(int n, int count)
+    {
+        if (n < 0)
+            return 0;
+        if (n == 0)
+            return 1;
+
+
+
+        
+    }
+
     //69. Sqrt(x)
     public int MySqrt(int x)
     {
