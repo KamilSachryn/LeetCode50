@@ -59,26 +59,32 @@ internal class Problems
     //70. Climbing Stairs
     public int ClimbStairs(int n)
     {
-        if (n <= 0)
-            return 0;
 
-
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        return ClimbStairs(n, dict);
         
 
 
 
+   
     }
 
-    public int ClimbStairsRec(int n, int count)
+    public int ClimbStairs(int n, Dictionary<int, int> dict)
     {
-        if (n < 0)
-            return 0;
+
         if (n == 0)
             return 1;
+        if (n == 1)
+            return 1;  
+
+        if(!dict.ContainsKey(n))
+        {
+            dict.Add(n, ClimbStairs(n - 1, dict) + ClimbStairs(n - 2, dict));
+        }
+
+        return dict[n];
 
 
-
-        
     }
 
     //69. Sqrt(x)
