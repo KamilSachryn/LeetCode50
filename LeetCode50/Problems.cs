@@ -9,14 +9,47 @@ internal class Problems
 {
     public void currentProblem()
     {
-        string a = "0";
-        string b = "1";
-        //string output = AddBinary(a, b);
-        int output = MySqrt(16);
-        Console.WriteLine(output);
+        ListNode problem = ListNode.generateLinkedList(new List<int>() {1,1,2,3,3 });
+        List<int> output = ListNode.linkedListToList(DeleteDuplicates(problem));
+        foreach (int i in output)
+            Console.WriteLine(i + ", ");
         
 
     }
+
+    //83. Remove Duplicates from Sorted List
+    public ListNode DeleteDuplicates(ListNode head)
+    {
+        if (head == null)
+            return null;
+        if (head.next == null)
+            return head;
+
+        ListNode prev = head;
+        ListNode newHead = head;
+        head = head.next;
+        while(head != null)
+        {
+            if (head.val == prev.val)
+            {
+                ListNode tmp = head.next;
+                prev.next = tmp;
+                head = tmp;
+            }
+            else
+            {
+                prev = head;
+                head = head.next;
+
+            }
+
+
+        }
+
+        return newHead;
+
+    }
+
 
 
     /*
