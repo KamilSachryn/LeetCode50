@@ -9,11 +9,55 @@ internal class Problems
 {
     public void currentProblem()
     {
-        ListNode problem = ListNode.generateLinkedList(new List<int>() {1,1,2,3,3 });
-        List<int> output = ListNode.linkedListToList(DeleteDuplicates(problem));
-        foreach (int i in output)
-            Console.WriteLine(i + ", ");
-        
+
+        Merge(new int[] { 1, 2, 3, 0, 0, 0 }, 3, new int[] { 2, 5, 6 }, 3);
+
+    }
+
+    //88. Merge Sorted Array
+    public void Merge(int[] nums1, int m, int[] nums2, int n)
+    {
+        if (m == 0)
+        {
+            nums1 = nums2;
+            return;
+        }
+        if(n == 0)
+        {
+            return;
+        }
+
+        int carry = 0;
+        int j = 0;
+        for(int i = 0; i < m + n; i++)
+        {
+            int low = 0;
+            if (nums1[i] < nums2[j] || i >= m)
+            {
+                low = nums1[i];
+            }
+            else
+            {
+                low = nums2[j];
+                j++;
+            }
+            if(carry <= low)
+            {
+                int tmp = nums1[i];
+                nums1[i] = carry;
+                carry = tmp;
+            }
+            else //carry > low
+            {
+                nums1[i] = low;
+
+            }
+        }
+
+
+        foreach (int i in nums1)
+            Console.Write(i + ", ");
+
 
     }
 
