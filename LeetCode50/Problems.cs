@@ -17,46 +17,27 @@ internal class Problems
     //88. Merge Sorted Array
     public void Merge(int[] nums1, int m, int[] nums2, int n)
     {
-        if (m == 0)
-        {
-            nums1 = nums2;
-            return;
-        }
-        if(n == 0)
-        {
-            return;
-        }
+        int left = m - 1;
+        int right = n - 1;
+        int i = m + n - 1;
 
-        int carry = 0;
-        int j = 0;
-        for(int i = 0; i < m + n; i++)
+
+        while(right >= 0)
         {
-            int low = 0;
-            if (nums1[i] < nums2[j] || i >= m)
+            if (left >= 0 && nums1[left] > nums2[right])
             {
-                low = nums1[i];
+
+                nums1[i] = nums1[left];
+                i--;
+                left--;
             }
             else
             {
-                low = nums2[j];
-                j++;
-            }
-            if(carry <= low)
-            {
-                int tmp = nums1[i];
-                nums1[i] = carry;
-                carry = tmp;
-            }
-            else //carry > low
-            {
-                nums1[i] = low;
-
+                nums1[i] = nums2[right];
+                i--;
+                right--;
             }
         }
-
-
-        foreach (int i in nums1)
-            Console.Write(i + ", ");
 
 
     }
