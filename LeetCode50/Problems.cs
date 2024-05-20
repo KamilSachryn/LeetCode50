@@ -42,6 +42,24 @@ internal class Problems
 
     }
 
+    //121. Best Time to Buy and Sell Stock
+    public int MaxProfit(int[] prices)
+    {
+
+        int left = 0;
+        int right = 1;
+        int diff = 0;
+
+        while(right != prices.Length)
+        {
+            int currDiff = prices[right] - prices[left];
+            if ( currDiff < diff)
+
+        }
+
+    }
+
+
     //83. Remove Duplicates from Sorted List
     public ListNode DeleteDuplicates(ListNode head)
     {
