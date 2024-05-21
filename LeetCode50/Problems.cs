@@ -50,12 +50,24 @@ internal class Problems
         int right = 1;
         int diff = 0;
 
-        while(right != prices.Length)
+        while (right != prices.Length)
         {
             int currDiff = prices[right] - prices[left];
-            if ( currDiff < diff)
+            if (prices[left] < prices[right])
+            {
+                if (diff < currDiff)
+                    diff = currDiff;
+
+            }
+            else
+            {
+                left = right;
+            }
+            right++;
 
         }
+
+        return diff;
 
     }
 
