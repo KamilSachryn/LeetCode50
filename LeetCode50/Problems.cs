@@ -10,7 +10,48 @@ internal class Problems
     public void currentProblem()
     {
 
-        Merge(new int[] { 1, 2, 3, 0, 0, 0 }, 3, new int[] { 2, 5, 6 }, 3);
+        String s = "is2 sentence4 This1 a3";
+        string output = SortSentence(s);
+        Console.WriteLine(output);
+
+
+
+    }
+
+    //1859. Sorting the Sentence
+    public string SortSentence(string s)
+    {
+        Dictionary<int, string> dict = new Dictionary<int, string>();
+        string build = "";
+        for(int i = 0; i < s.Length; i++)
+        {
+            if(char.IsDigit(s[i])) //is a number
+            {
+                dict.Add(s[i] - '0', build);
+                build = "";
+            }
+            else if (s[i] == ' ') //is a blank space
+            {
+                //do nothing
+            }
+            else //is a letter
+            {
+                build += s[i];
+            }
+        }
+
+        string output = "";
+        for(int i = 1; i <= dict.Count; i++)
+        {
+            output += dict[i];
+            output += ' ';
+        }
+
+        return output.Trim();
+       
+
+
+
 
     }
 
@@ -38,7 +79,6 @@ internal class Problems
                 right--;
             }
         }
-
 
     }
 
