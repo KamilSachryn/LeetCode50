@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Xml.Linq;
@@ -10,16 +11,53 @@ internal class Problems
     public void currentProblem()
     {
 
-        int[] start = { 1, 2, 3 };
-        int[] end = { 3, 2, 7 };
-        int query = 4;
+        int[] start = { 0,1,0,3,12};
 
-        Console.WriteLine(BusyStudent(start, end, query));
+        MoveZeroes(start, true);
+
 
 
 
     }
 
+
+    //283. Move Zeroes
+    public void MoveZeroes(int[] nums)
+    {
+
+        int movingPointer = 0;
+        List<int> freeSpaces = new List<int>(nums.Length);
+        int ignoreIndex = 0;
+
+
+        while (movingPointer != nums.Length)
+        {
+            int curr = nums[movingPointer];
+            if (curr == 0)
+            {
+                freeSpaces.Add(movingPointer);
+
+            }
+            else
+            {
+                if (freeSpaces.Count > 0)
+                {
+                    nums[freeSpaces[ignoreIndex]] = curr;
+                    ignoreIndex++;
+                    nums[movingPointer] = 0;
+                    freeSpaces.Add(movingPointer);
+                }
+            }
+
+            movingPointer++;
+        }
+
+        foreach(int i in nums)
+        {
+            Console.Write(i + ", ");
+        }
+
+    }
 
     //1450. Number of Students Doing Homework at a Given Time
     public int BusyStudent(int[] startTime, int[] endTime, int queryTime)
