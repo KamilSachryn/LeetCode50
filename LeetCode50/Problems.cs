@@ -10,13 +10,31 @@ internal class Problems
     public void currentProblem()
     {
 
-        String s = "is2 sentence4 This1 a3";
-        string output = SortSentence(s);
-        Console.WriteLine(output);
+        int[] start = { 1, 2, 3 };
+        int[] end = { 3, 2, 7 };
+        int query = 4;
+
+        Console.WriteLine(BusyStudent(start, end, query));
 
 
 
     }
+
+
+    //1450. Number of Students Doing Homework at a Given Time
+    public int BusyStudent(int[] startTime, int[] endTime, int queryTime)
+    {
+        int output = 0;
+
+        for(int i = 0; i < startTime.Length; i++)
+        {
+            if (startTime[i] <= queryTime && endTime[i] >= queryTime )
+                output++;
+        }
+
+        return output;
+    }
+
 
     //1859. Sorting the Sentence
     public string SortSentence(string s)
