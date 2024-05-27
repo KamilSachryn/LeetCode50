@@ -12,20 +12,62 @@ internal class Problems
     {
 
         int[] start = { 2, 2, 1, 1, 1, 2, 2 };
+        int n = 11;
 
-        Console.WriteLine(MajorityElement(start));
+        Console.WriteLine(HammingWeight(n));
 
 
 
 
     }
 
+    //191. Number of 1 Bits
+    public int HammingWeight(int n)
+    {
+        int count = 0;
+        while(n >= 1)
+        {
+            count += n % 2;
+            n /= 2;
+        }
+
+        return count;
+
+    }
+
+
+
     //169. Majority Element
     public int MajorityElement(int[] nums)
     {
         Dictionary<int, int> dict = new Dictionary<int, int>();
 
-        
+        foreach (int i in nums)
+        {
+            if (!dict.ContainsKey(i))
+            {
+                dict.Add(i, 1);
+            }
+            else
+            {
+                dict[i] = dict[i] + 1;
+            }
+
+
+        }
+
+        int maxNum = -1;
+        int maxKey = -1;
+        foreach (int i in dict.Keys)
+        {
+            if (dict[i] > maxNum)
+            {
+                maxNum = dict[i];
+                maxKey = i;
+            }
+        }
+
+        return maxKey;
 
 
 
