@@ -25,32 +25,7 @@ internal class Problems
     {
         Dictionary<int, int> dict = new Dictionary<int, int>();
 
-        foreach(int i in nums)
-        {
-            if(!dict.ContainsKey(i))
-            {
-                dict.Add(i, 1);
-            }
-            else
-            {
-                dict[i] = dict[i] + 1;
-            }
-
-
-        }
-
-        int maxNum = -1;
-        int maxKey = -1;
-        foreach(int i in dict.Keys)
-        {
-            if (dict[i] > maxNum)
-            {
-                maxNum = dict[i];
-                maxKey = i;
-            }
-        }
-
-        return maxKey;
+        
 
 
 
