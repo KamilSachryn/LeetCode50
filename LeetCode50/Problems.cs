@@ -12,11 +12,30 @@ internal class Problems
     {
 
         int[] start = { 2, 2, 1, 1, 1, 2, 2 };
-        int n = 11;
+        int n = 27;
 
-        Console.WriteLine(HammingWeight(n));
+        Console.WriteLine(IsPowerOfThree(n));
 
 
+
+
+    }
+
+    public bool IsPowerOfN(int i, int n)
+    {
+        //log_a(b) = log_10(b) / log_10(a)
+        double log = Math.Log10(i) / Math.Log10(n);
+        //Console.WriteLine(log);
+
+        return log - (int)log == 0;
+
+    }
+
+    //326. Power of Three
+    public bool IsPowerOfThree(int n)
+    {
+
+        return IsPowerOfN(n, 3);
 
 
     }
