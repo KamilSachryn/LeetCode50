@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -13,18 +14,48 @@ internal class Problems
 
         int[] start = { 2, 2, 1, 1, 1, 2, 2 };
         int n = 27;
+        String s = "0P";
 
-        Console.WriteLine(IsPowerOfThree(n));
+        Console.WriteLine(IsPalindrome(s));
+
+
 
 
 
 
     }
 
-    public bool IsPowerOfN(int i, int n)
+    //125. Valid Palindrome
+    public bool IsPalindrome(string s)
     {
+        s = s.ToLower();
+
+        string pattern = "[^a-zA-Z0-9]";
+
+        s = Regex.Replace(s, pattern, "");
+
+        Console.WriteLine(s);
+        int left = 0;
+        int right = s.Length - 1;
+
+        while(left <= right)
+        {
+            if (s[left++] != s[right--])
+                return false;
+        }
+
+        return true;
+
+    }
+
+
+    public bool IsPowerOfN(int b, int a)
+    {
+        //log_a(b) = c -> a^c = b
+
+
         //log_a(b) = log_10(b) / log_10(a)
-        double log = Math.Log10(i) / Math.Log10(n);
+        double log = Math.Log10(b) / Math.Log10(a);
         //Console.WriteLine(log);
 
         return log - (int)log == 0;
