@@ -13,10 +13,10 @@ internal class Problems
     {
 
         int[] start = { 2, 2, 1, 1, 1, 2, 2 };
-        int n = 27;
+        int n = 10;
         String s = "0P";
 
-        Console.WriteLine(IsPalindrome(s));
+        Console.WriteLine(CountPrimes(n));
 
 
 
@@ -24,6 +24,42 @@ internal class Problems
 
 
     }
+
+
+    // 204. Count Primes
+    public int CountPrimes(int n)
+    {
+        bool[] sieve = new bool[n ];
+        int output = 0;
+        if (n <= 2)
+            return 0;
+        for(int i = 4; i < sieve.Length; i+=2)
+        {
+            sieve[i] = true;
+        }
+
+        for(int i = 3; i < sieve.Length; i++)
+        {
+            if(!sieve[i])
+            {
+                for(int j = i + i; j < sieve.Length; j+=i)
+                {
+                    sieve[j] = true;
+                }
+            }
+        }
+
+        for(int i = 2; i < sieve.Length;i++)
+        {
+
+            // Console.WriteLine(i + " is " + (sieve[i] ? "not prime" : "prime"));
+            output += sieve[i] ? 0 : 1;
+        }
+
+        return output;
+
+    }
+
 
     //125. Valid Palindrome
     public bool IsPalindrome(string s)
