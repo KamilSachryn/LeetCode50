@@ -12,19 +12,77 @@ internal class Problems
     public void currentProblem()
     {
 
-        int[] start = { 2, 2, 1, 1, 1, 2, 2 };
-        int n = 10;
-        String s = "0P";
 
-        Console.WriteLine(CountPrimes(n));
+        int[][] matrix = new int[][] {new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
 
 
 
-
+        Rotate(matrix);
 
 
     }
 
+    //48. Rotate Image
+    public void Rotate(int[][] matrix)
+    {
+        Console.WriteLine("Starting arr:");
+        printArrofArrs(matrix);
+        Console.WriteLine("End starting arr arr:");
+
+
+        int[][] output = new int[matrix.Length][];
+
+        if (matrix.Length == 0)
+        {
+            Console.WriteLine("width 0");
+            return;
+        }
+        if (matrix[0].Length == 0)
+        {
+            Console.WriteLine("height 0");
+            return;
+        }
+
+
+        int width = matrix.Length;
+        int height = matrix[0].Length;
+
+
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            output[i] = new int[matrix[0].Length];
+            for(int j = 0; j < matrix.Length; j++)
+            {
+                if(i == width - 1)
+                {
+                    i = 0;
+                }
+
+
+                output[i][j] = matrix[i][j];
+            }
+        }
+
+        Console.WriteLine("Ending arr:");
+        printArrofArrs(output);
+        Console.WriteLine("End ending arr arr:");
+    }
+
+    void printArrofArrs(int[][] matrix)
+    {
+
+
+        foreach (int[] arr in matrix)
+        {
+            foreach(int i in arr)
+            {
+                Console.Write("[" + i + "]");
+            }
+            Console.WriteLine();
+        }
+
+
+    }
 
     // 204. Count Primes
     public int CountPrimes(int n)
