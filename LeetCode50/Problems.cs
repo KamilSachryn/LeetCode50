@@ -17,11 +17,107 @@ internal class Problems
         int[][] matrix2 = new int[][] { new int[] { 5, 1, 9, 11 }, new int[] { 2, 4, 8, 10 }, new int[] { 13, 3, 6, 7 }, new int[] { 15, 14, 12, 16 } };
 
 
-
-        Rotate(matrix2, true);
+        string s = "abbaca";
+        Console.WriteLine("output: " + RemoveDuplicates(s));
 
 
     }
+
+    //1047. Remove All Adjacent Duplicates In String
+    public string RemoveDuplicates(string s)
+    {
+        int len = s.Length;
+        int i = 0;
+        while(i < len-1)
+        {
+            bool dec = true;
+            if (s[i] == s[i+1])
+            {
+                s = s.Remove(i, 2);
+                dec = false;
+                len = s.Length;
+            }
+            if (dec)
+                i++;
+            else
+                i--;
+            if (i < 0)
+                i = 0;
+        }
+
+        return s;
+
+    }
+
+
+    // 486. Predict the Winner
+    public bool PredictTheWinner(int[] nums)
+    {
+        return PredictTheWinner(nums, 0, 0, true);
+
+
+
+
+    }
+
+    public bool PredictTheWinner(int[] nums, int p1Score, int p2Score, bool p1Turn)
+    {
+
+        Console.Write("Nums: ");
+        for(int i = 0; i < nums.Length; i++)
+        {
+            Console.Write(nums[i] + ", ");
+        }
+        Console.WriteLine();
+
+        if(nums.Length == 0)
+        {
+            if(p1Score > p2Score)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+        bool output = false;
+        int[] leftNums = new int[nums.Length - 1];
+        for(int i = 1; i < nums.Length; i++)
+        {
+            leftNums[i - 1] = nums[i];
+        }
+
+        int[] rightNums = new int[nums.Length - 1];
+        for (int i = 0; i < nums.Length - 1; i++)
+        {
+            rightNums[i] = nums[i + 1];
+        }
+
+        if (p1Turn)
+        {
+            output = PredictTheWinner(leftNums, p1Score + nums[0], p2Score, false);
+            if(output != true)
+            {
+                output = PredictTheWinner(rightNums, p1Score + nums[nums.Length - 1], p2Score, false);
+            }
+        }
+        else
+        {
+            output = PredictTheWinner(leftNums, p1Score, p2Score + nums[0], true);
+            if (output != true)
+            {
+                output = PredictTheWinner(rightNums, p1Score , p2Score + nums[nums.Length - 1], true);
+            }
+        }
+
+        return output;
+
+
+    } 
 
     //48. Rotate Image
     public void Rotate(int[][] matrix, bool inplace)
