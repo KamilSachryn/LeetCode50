@@ -13,16 +13,47 @@ internal class Problems
     {
 
 
-        int[][] matrix = new int[][] {new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
+        int[][] matrix = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
+        int[][] matrix2 = new int[][] { new int[] { 5, 1, 9, 11 }, new int[] { 2, 4, 8, 10 }, new int[] { 13, 3, 6, 7 }, new int[] { 15, 14, 12, 16 } };
 
 
 
-        Rotate(matrix);
+        Rotate(matrix2, true);
 
 
     }
 
     //48. Rotate Image
+    public void Rotate(int[][] matrix, bool inplace)
+    {
+
+
+        for(int i = 0; i < matrix.Length; i++)
+        {
+            for(int j = 0; j < i; j++)
+            {
+                int hold = matrix[i][j];
+                int hold2 = matrix[j][i];
+                matrix[j][i] = hold;
+                matrix[i][j] = hold2;
+            }
+        }
+
+        for(int i = 0; i < matrix.Length ; i++)
+        {
+            for(int j = 0; j < matrix.Length / 2; j++)
+            {
+                int hold1 = matrix[i][j];
+                int hold2 = matrix[i][matrix.Length - 1 - j];
+                matrix[i][j] = hold2;
+                matrix[i][matrix.Length - 1 - j] = hold1;
+
+
+            }
+        }
+                   
+    }
+
     public void Rotate(int[][] matrix)
     {
         Console.WriteLine("Starting arr:");
@@ -31,6 +62,10 @@ internal class Problems
 
 
         int[][] output = new int[matrix.Length][];
+        for(int i = 0; i < output.Length; i++)
+        {
+            output[i] = new int[matrix[0].Length];
+        }
 
         if (matrix.Length == 0)
         {
@@ -50,16 +85,12 @@ internal class Problems
 
         for(int i = 0; i < matrix.Length; i++)
         {
-            output[i] = new int[matrix[0].Length];
+
             for(int j = 0; j < matrix.Length; j++)
             {
-                if(i == width - 1)
-                {
-                    i = 0;
-                }
+                output[j][height - i - 1] = matrix[i][j];
 
 
-                output[i][j] = matrix[i][j];
             }
         }
 
