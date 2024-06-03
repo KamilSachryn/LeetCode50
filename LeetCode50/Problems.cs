@@ -9,6 +9,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 internal class Problems
 {
+    bool foo1115 = false;
+    int n1115 = 5;
     public void currentProblem()
     {
 
@@ -21,6 +23,47 @@ internal class Problems
         Console.WriteLine("output: " + RemoveDuplicates(s));
 
 
+    }
+    //1115. Print FooBar Alternately
+    public void Foo1115(Action printFoo)
+    {
+
+        for (int i = 0; i < n1115; i++)
+        {
+            if (!foo1115)
+            {
+                while (true)
+                {
+                    if (foo1115 == true)
+                        break;
+                }
+            }
+            // printFoo() outputs "foo". Do not change or remove this line.
+            printFoo();
+            foo1115 = false;
+        }
+    }
+
+    public void Bar1115(Action printBar)
+    {
+
+        for (int i = 0; i < n1115; i++)
+        {
+
+            if (foo1115)
+            {
+                while (true)
+                {
+                    if (foo1115 == false)
+                    {
+                        break;
+                    }
+                }
+            }
+            // printBar() outputs "bar". Do not change or remove this line.
+            printBar();
+            foo1115 = true;
+        }
     }
 
     //1047. Remove All Adjacent Duplicates In String
