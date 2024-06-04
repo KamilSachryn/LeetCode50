@@ -15,15 +15,56 @@ internal class Problems
     {
 
 
-        int[][] matrix = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
-        int[][] matrix2 = new int[][] { new int[] { 5, 1, 9, 11 }, new int[] { 2, 4, 8, 10 }, new int[] { 13, 3, 6, 7 }, new int[] { 15, 14, 12, 16 } };
+        ListNode input = new ListNode(0);
+        ListNode input2 = new ListNode(3);
+        ListNode input3 = new ListNode(9);
+        ListNode input4 = new ListNode(2);
+        ListNode input5 = new ListNode(5);
+            
 
-
-        string s = "abbaca";
-        Console.WriteLine("output: " + RemoveDuplicates(s));
+        input.next = input2;
+        input2.next = input3;
+        input3.next = input4;
+        input4.next = input5;
+        RemoveNodes(input);
 
 
     }
+
+    //2487. Remove Nodes From Linked List
+    public ListNode RemoveNodes(ListNode head)
+    {
+        if (head == null || head.next == null)
+            return head;
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+
+        ListNode revHead = new ListNode();
+
+        foreach(int i in ListNode.linkedListToList(reverseListNoe(head)))
+        {
+            Console.WriteLine(i);
+
+        }
+
+        return null;
+
+    }
+
+
+    public ListNode reverseListNoe(ListNode n)
+    {
+        if(n == null || n.next == null)
+        {
+            return n;
+        }
+
+        n.next = reverseListNoe(n.next);
+
+        return n;
+
+
+    }
+
     //1115. Print FooBar Alternately
     public void Foo1115(Action printFoo)
     {
