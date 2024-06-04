@@ -15,18 +15,25 @@ internal class Problems
     {
 
 
-        ListNode input = new ListNode(0);
-        ListNode input2 = new ListNode(3);
-        ListNode input3 = new ListNode(9);
-        ListNode input4 = new ListNode(2);
-        ListNode input5 = new ListNode(5);
+        ListNode input = new ListNode(1);
+        ListNode input2 = new ListNode(1);
+        ListNode input3 = new ListNode(1);
+        ListNode input4 = new ListNode(1);
+        ListNode input5 = new ListNode(1);
             
 
         input.next = input2;
         input2.next = input3;
         input3.next = input4;
         input4.next = input5;
-        RemoveNodes(input);
+        ListNode output = RemoveNodes(input);
+
+        while(output != null)
+        {
+            Console.WriteLine(output.val);
+            output = output.next;
+        }
+        
 
 
     }
@@ -36,31 +43,62 @@ internal class Problems
     {
         if (head == null || head.next == null)
             return head;
-        Dictionary<int, int> dict = new Dictionary<int, int>();
 
-        ListNode revHead = new ListNode();
 
-        foreach(int i in ListNode.linkedListToList(reverseListNoe(head)))
+
+        ListNode revHead = reverseListNode(head);
+
+        int largest = revHead.val;
+
+        ListNode outputHead = new ListNode(0);
+        ListNode output = new  ListNode(revHead.val);
+        outputHead.next = output;
+        revHead = revHead.next;
+        while(revHead != null)
         {
-            Console.WriteLine(i);
 
+            if (revHead.val >= largest)
+            {
+                Console.WriteLine(largest + " >= " + revHead.val);
+                output.next = new ListNode(revHead.val);
+                output = output.next;
+                largest = revHead.val;
+               
+            }
+            revHead = revHead.next;
         }
+        
 
-        return null;
+        return reverseListNode(outputHead.next);
 
     }
 
 
-    public ListNode reverseListNoe(ListNode n)
+
+
+    public ListNode reverseListNode(ListNode n)
     {
-        if(n == null || n.next == null)
+        //1 -> 2 -> 3 -> null
+        //smallest case: 3 -> null
+        //so build up from 3
+        if(n == null)
         {
             return n;
         }
 
-        n.next = reverseListNoe(n.next);
 
-        return n;
+        ListNode tmp = n;
+        if(n.next != null)
+        {
+            tmp = reverseListNode(n.next);
+            n.next.next = n;
+        }
+        n.next = null;
+
+        return tmp;
+        
+
+        
 
 
     }
