@@ -14,13 +14,75 @@ internal class Problems
     public void currentProblem()
     {
 
-
-        //int[][] input = new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 }, new int[] { 2, 0 } };
-        int[][] input = new int[][] { new int[] { 1,1 }, new int[] { 2,2 }, new int[] { 3,3 } };
+        
+        int[][] input = new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 }, new int[] { 2, 0 } };
+       // int[][] input = new int[][] { new int[] { 0,0 }, new int[] { 1,0 }, new int[] { -1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1} };
         Console.WriteLine(NumberOfBoomerangs(input));
 
     }
 
+
+    //447. Number of Boomerangs
+    public int NumberOfBoomerangs(int[][] points)
+    {
+        int count = 0;
+        if (points.Length < 3)
+            return 0;
+
+
+        Dictionary<double, int> dict = new Dictionary<double, int>();
+
+
+        for(int i = 0; i < points.Length; i++)
+        {
+            for(int j = 0; j < points.Length; j++)
+            {
+                
+
+                int x1 = points[i][0];
+                int y1 = points[i][1];
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+
+                if (x1 == x2 && y1 == y2)
+                    continue;
+
+                double dist = distanceBetweenTwoPoints(x1, y1, x2, y2);
+
+                if(dict.ContainsKey(dist))
+                {
+                    dict[dist]++;
+                }
+                else
+                {
+                    dict.Add(dist, 1);
+                }
+                Console.WriteLine(String.Format("({0}, {1}), ({2}, {3}) : {4}", x1, y1, x2, y2, dist));
+
+            }
+
+            foreach(double key in dict.Keys)
+            {
+                /*
+                Console.WriteLine(String.Format("{0} : {1}", key, dict[key]));
+                if (dict[key] >= 1)
+                {
+                    count += dict[key];
+                }
+                */
+
+                count += dict[key] * (dict[key] - 1);
+
+
+            }
+
+            dict.Clear();
+
+        }
+        return count;
+
+
+    }
     //447. Number of Boomerangs
     public int NumberOfBoomerangsNaive(int[][] points)
     {
