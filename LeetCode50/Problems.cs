@@ -15,28 +15,78 @@ internal class Problems
     {
 
 
-        ListNode input = new ListNode(1);
-        ListNode input2 = new ListNode(1);
-        ListNode input3 = new ListNode(1);
-        ListNode input4 = new ListNode(1);
-        ListNode input5 = new ListNode(1);
-            
+        //int[][] input = new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 }, new int[] { 2, 0 } };
+        int[][] input = new int[][] { new int[] { 1,1 }, new int[] { 2,2 }, new int[] { 3,3 } };
+        Console.WriteLine(NumberOfBoomerangs(input));
 
-        input.next = input2;
-        input2.next = input3;
-        input3.next = input4;
-        input4.next = input5;
-        ListNode output = RemoveNodes(input);
+    }
 
-        while(output != null)
+    //447. Number of Boomerangs
+    public int NumberOfBoomerangsNaive(int[][] points)
+    {
+        int count = 0;
+
+        for(int i = 0; i < points.Length; i++)
         {
-            Console.WriteLine(output.val);
-            output = output.next;
+            int x1 = points[i][0];
+            int y1 = points[i][1];
+
+            for(int j = 0; j < points.Length; j++)
+            {
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+
+                if (x1 != x2 || y1 != y2)
+                {
+
+                    for (int k = 0; k < points.Length; k++)
+                    {
+                        int x3 = points[k][0];
+                        int y3 = points[k][1];
+
+                        if ((x1 != x3 || y1 != y3) && (x2 != x3 || y2 != y3))
+                        {
+                            double distBetweenFirstTwo = distanceBetweenTwoPoints(x1, y1, x2, y2);
+                            double distBetweenSecondTwo = distanceBetweenTwoPoints(x1, y1, x3, y3);
+                           // Console.WriteLine(String.Format("({0}, {1}), ({2}, {3}), ({4}, {5}), 1st dist: {6}, 2nd dist: {7}", x1, y1, x2, y2, x3, y3, distBetweenFirstTwo, distBetweenSecondTwo));
+
+                            if (distBetweenFirstTwo == distBetweenSecondTwo)
+                            {
+                                //Console.WriteLine("count++");
+                                count++;
+                            }
+
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+
         }
-        
+
+
+        return count;
+
+
 
 
     }
+
+
+
+
+
+
+    double distanceBetweenTwoPoints(int x1, int y1, int x2, int y2)
+    {
+        //d=√((x2 – x1)² + (y2 – y1)²).
+        return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+    }
+
 
     //2487. Remove Nodes From Linked List
     public ListNode RemoveNodes(ListNode head)
