@@ -14,10 +14,52 @@ internal class Problems
     public void currentProblem()
     {
 
-        
-        int[][] input = new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 }, new int[] { 2, 0 } };
-       // int[][] input = new int[][] { new int[] { 0,0 }, new int[] { 1,0 }, new int[] { -1, 0 }, new int[] { 0, 1 }, new int[] { 0, -1} };
-        Console.WriteLine(NumberOfBoomerangs(input));
+
+        ListNode input = ListNode.generateLinkedList(new List<int> {2,7,4,3,5 });
+
+        int[] output = NextLargerNodes(input);
+        foreach (int i in output)
+            Console.Write(i + ", ");
+       
+
+    }
+
+    //1019. Next Greater Node In Linked List
+    public int[] NextLargerNodes(ListNode head)
+    { 
+        //       index        index of bigger,  value of original  val of bigger
+        Dictionary<int, Tuple<int,               int,               int>> dict = new Dictionary<int, Tuple<int, int, int>>();
+        int i = 0;
+
+        while(head != null)
+        {
+            dict.Add(i, new Tuple<int, int, int>(0, head.val, 0));
+
+            foreach(int key in dict.Keys)
+            {
+                Tuple<int, int, int> value = dict[key];
+                if(value.Item1 == 0)
+                {
+                    if(value.Item2 < head.val)
+                    {
+                        dict[key] = new Tuple<int, int, int>(i, value.Item2, head.val);
+                    }
+                }
+            }
+
+            i++;
+            head = head.next;
+
+        }
+        int[] output = new int[i ];
+
+        foreach(int key in dict.Keys)
+        {
+            output[key] = dict[key].Item3;
+        }
+
+        return output;
+
 
     }
 
