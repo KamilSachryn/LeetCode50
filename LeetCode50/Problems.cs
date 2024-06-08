@@ -15,13 +15,39 @@ internal class Problems
     {
 
 
-        ListNode input = ListNode.generateLinkedList(new List<int> {2,7,4,3,5 });
+        int[] colors = { 2, 0, 2, 1, 1, 0 };
+        SortColors(colors);
+        
 
-        int[] output = NextLargerNodes(input);
-        foreach (int i in output)
-            Console.Write(i + ", ");
-       
 
+    }
+
+    //75. Sort Colors
+    public void SortColors(int[] nums)
+    {
+        if (nums.Length <= 1)
+            return;
+
+        int red = 0;
+        int white = 0;
+        int blue = 0;
+
+        foreach(int i in nums)
+        {
+            if (i == 0)
+                red++;
+            else if (i == 1)
+                white++;
+            else
+                blue++;
+
+
+        }
+
+        for(int i = 0; i < nums.Length; i++)
+        {
+            nums[i] = red-- > 0 ? 0 : (white-- > 0 ? 1 : 2);
+        }
     }
 
     //1019. Next Greater Node In Linked List
@@ -30,11 +56,13 @@ internal class Problems
         //       index        index of bigger,  value of original  val of bigger
         Dictionary<int, Tuple<int,               int,               int>> dict = new Dictionary<int, Tuple<int, int, int>>();
         int i = 0;
+        List<int> list = new List<int>();
+        int[] output = new int[i];
 
-        while(head != null)
+        while (head != null)
         {
             dict.Add(i, new Tuple<int, int, int>(0, head.val, 0));
-
+            list.Add(i);
             foreach(int key in dict.Keys)
             {
                 Tuple<int, int, int> value = dict[key];
@@ -42,7 +70,10 @@ internal class Problems
                 {
                     if(value.Item2 < head.val)
                     {
-                        dict[key] = new Tuple<int, int, int>(i, value.Item2, head.val);
+                        list[i] = value.Item3;
+                       // dict[key] = new Tuple<int, int, int>(i, value.Item2, head.val);
+                       dict.Remove(key);
+
                     }
                 }
             }
@@ -51,14 +82,11 @@ internal class Problems
             head = head.next;
 
         }
-        int[] output = new int[i ];
 
-        foreach(int key in dict.Keys)
-        {
-            output[key] = dict[key].Item3;
-        }
 
-        return output;
+
+
+        return list.ToArray() ;
 
 
     }
