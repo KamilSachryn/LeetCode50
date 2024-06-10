@@ -15,10 +15,89 @@ internal class Problems
     {
 
 
-        int[] colors = { 2, 0, 2, 1, 1, 0 };
-        SortColors(colors);
-        
+        string num1 = "123";
+        string num2 = "456";
+        string output = Multiply(num1, num2);
 
+        Console.WriteLine(output);
+
+
+    }
+
+    //43. Multiply Strings
+    public string Multiply(string num1, string num2)
+    {
+        string output = "0";
+
+
+        int left = num1.Length - 1;
+        int right = num2.Length - 1;
+
+        List<string> numsToAdd = new List<string>();
+
+
+        for(int i = num1.Length -1; i >= 0; i--)
+        {
+
+            string top = num1[i].ToString();
+            Console.WriteLine("TOP: " + top);
+            string numToAdd = "";
+            string hold = "";
+            
+            for(int j = num2.Length - 1; j >= 0; j--)
+            {
+
+                string bottom = num2[j].ToString();
+                Console.WriteLine("BOTTOM: " + bottom);
+
+                string n = (int.Parse(bottom) * int.Parse(top) + ( hold != "" ? int.Parse(hold) : 0 )).ToString();
+                if (n.Length > 1)
+                {
+                    hold = n.Substring(0, 1);
+                    n = n.Substring(1, 1);
+                }
+                else
+                {
+                    hold = "";
+                }
+
+                numToAdd = numToAdd.Insert(0, n);
+
+
+                Console.WriteLine(String.Format("num to add {0} = {1} * {2}, hold = {3}", numToAdd, int.Parse(bottom), int.Parse(top), hold));
+
+
+
+
+            }
+            Console.WriteLine(String.Format("num to add {0}, hold {1}", numToAdd, hold));
+            if (hold != "")
+            {
+                numToAdd = numToAdd.Insert(0, hold);
+                hold = "";
+            }
+
+            for(int k = 0; k < numsToAdd.Count; k++)
+            {
+                numToAdd += "0";
+            }
+
+            Console.WriteLine(String.Format("num to add {0}, hold {1}", numToAdd, hold));
+            numsToAdd.Add(numToAdd);
+
+
+        }
+        Console.WriteLine("-- adding --");
+
+        foreach(string a in numsToAdd)
+        {
+            Console.WriteLine(output + ", " + a);
+            output = (int.Parse(output) + int.Parse(a)).ToString();
+            Console.WriteLine(a);
+        }
+
+
+        return output;
 
     }
 
