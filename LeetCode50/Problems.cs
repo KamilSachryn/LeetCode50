@@ -17,9 +17,11 @@ internal class Problems
 
         string num1 = "123";
         string num2 = "456";
-        string output = Multiply(num1, num2);
+      // string output = Multiply(num1, num2);
 
-        Console.WriteLine(output);
+       // Console.WriteLine(output); 
+        Console.WriteLine(AddStrings("999", "999")); 
+        //Console.WriteLine(addStringNumbers("1368", "9120")); 
 
 
     }
@@ -27,6 +29,9 @@ internal class Problems
     //43. Multiply Strings
     public string Multiply(string num1, string num2)
     {
+        if (num1 == "0" || num2 == "0")
+            return "0";
+
         string output = "0";
 
 
@@ -40,7 +45,7 @@ internal class Problems
         {
 
             string top = num1[i].ToString();
-            Console.WriteLine("TOP: " + top);
+         //   Console.WriteLine("TOP: " + top);
             string numToAdd = "";
             string hold = "";
             
@@ -48,7 +53,7 @@ internal class Problems
             {
 
                 string bottom = num2[j].ToString();
-                Console.WriteLine("BOTTOM: " + bottom);
+         //       Console.WriteLine("BOTTOM: " + bottom);
 
                 string n = (int.Parse(bottom) * int.Parse(top) + ( hold != "" ? int.Parse(hold) : 0 )).ToString();
                 if (n.Length > 1)
@@ -64,13 +69,13 @@ internal class Problems
                 numToAdd = numToAdd.Insert(0, n);
 
 
-                Console.WriteLine(String.Format("num to add {0} = {1} * {2}, hold = {3}", numToAdd, int.Parse(bottom), int.Parse(top), hold));
+           //     Console.WriteLine(String.Format("num to add jloop {0} = {1} * {2}, hold = {3}", numToAdd, int.Parse(bottom), int.Parse(top), hold));
 
 
 
 
             }
-            Console.WriteLine(String.Format("num to add {0}, hold {1}", numToAdd, hold));
+        //    Console.WriteLine(String.Format("num to add before hold change {0}, hold {1}", numToAdd, hold));
             if (hold != "")
             {
                 numToAdd = numToAdd.Insert(0, hold);
@@ -82,22 +87,124 @@ internal class Problems
                 numToAdd += "0";
             }
 
-            Console.WriteLine(String.Format("num to add {0}, hold {1}", numToAdd, hold));
+       //     Console.WriteLine(String.Format("num to add after hold change {0}, hold {1}", numToAdd, hold));
             numsToAdd.Add(numToAdd);
 
 
         }
-        Console.WriteLine("-- adding --");
+     //   Console.WriteLine("-- adding --");
 
         foreach(string a in numsToAdd)
         {
-            Console.WriteLine(output + ", " + a);
-            output = (int.Parse(output) + int.Parse(a)).ToString();
-            Console.WriteLine(a);
+     //       Console.WriteLine(output + ", " + a);
+           // output = (int.Parse(output) + int.Parse(a)).ToString();
+            output = AddStrings(output, a);
+    //        Console.WriteLine(a);
         }
 
 
         return output;
+
+    }
+    public string AddStrings(string num1, string num2)
+    {
+
+        string output = "";
+
+        int leftHead = num1.Length - 1;
+        int rightHead = num2.Length - 1;
+
+        string hold = "0";
+
+        while(leftHead >= 0 || rightHead >= 0 || hold != "0")
+        {
+            if(leftHead >= 0 && rightHead >= 0)
+            {
+                string left = num1.Substring(leftHead, 1);
+                string right = num2.Substring(rightHead, 1);
+
+                int leftDigit = int.Parse(left);
+                int rightDigit = int.Parse(right);
+                int holdDigit = int.Parse(hold);
+
+                int sum = leftDigit + rightDigit + holdDigit;
+
+                if(sum >= 10)
+                {
+                    sum -= 10;
+                    holdDigit = 1;
+                }
+                else
+                {
+                    holdDigit = 0;
+                }
+
+                hold = holdDigit.ToString();
+                output = output.Insert(0, sum.ToString());
+
+                leftHead--;
+                rightHead--;
+
+
+            }
+            else if(leftHead >= 0)
+            {
+                string left = num1.Substring(leftHead, 1);
+                int leftDigit = int.Parse(left);
+                int holdDigit = int.Parse(hold);
+
+                int sum = leftDigit + holdDigit;
+
+                if (sum >= 10)
+                {
+                    sum -= 10;
+                    holdDigit = 1;
+                }
+                else
+                {
+                    holdDigit = 0;
+                }
+                hold = holdDigit.ToString();
+                output = output.Insert(0, sum.ToString());
+                leftHead--;
+            }
+            else if(rightHead >= 0)
+            {
+                string right = num2.Substring(rightHead, 1);
+                int rightDigit = int.Parse(right);
+                int holdDigit = int.Parse(hold);
+
+                int sum = rightDigit + holdDigit;
+
+                if (sum >= 10)
+                {
+                    sum -= 10;
+                    holdDigit = 1;
+                }
+                else
+                {
+                    holdDigit = 0;
+                }
+                hold = holdDigit.ToString();
+                output = output.Insert(0, sum.ToString());
+                rightHead--;
+            }
+            else
+            {
+                output = output.Insert(0, hold);
+                hold = "0";
+            }
+
+
+
+
+        }
+
+
+
+
+        return output;
+
 
     }
 
