@@ -20,11 +20,112 @@ internal class Problems
       // string output = Multiply(num1, num2);
 
        // Console.WriteLine(output); 
-        Console.WriteLine(AddStrings("999", "999")); 
         //Console.WriteLine(addStringNumbers("1368", "9120")); 
+
+        String leetString = "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]";
+        Console.WriteLine(leetString);
+        char[][] board = convertLeetCode2dArrString(leetString);
+
+        Console.WriteLine(Exist(board, "ABCCED"));
+
+    }
+
+    //79. Word Search
+    public bool Exist(char[][] board, string word)
+    {
+        printArrofArrs(board);
+        Console.WriteLine("\nRemoving letters not in " + word + "\n");
+
+        for(int i = 0; i < board.Length; i++)
+        {
+            for(int j = 0; j < board[0].Length; j++)
+            {
+                if (!word.Contains(board[i][j]))
+                {
+                    board[i][j] = ' ';
+                }
+            }
+        }
+
+        printArrofArrs(board);
+
+        return true;
 
 
     }
+
+
+    public char[][] convertLeetCode2dArrString(String leet)
+    {
+        leet = leet.Remove(0, 1);
+        leet = leet.Remove(leet.Length - 1, 1);
+        leet = leet.Replace("\"", "");
+        leet = leet.Replace(",", "");
+
+        int rows = 0;
+        int columns = leet.IndexOf(']') - 1;
+        foreach (char c in leet)
+        {
+            if (c == '[')
+            {
+                rows++;
+            }
+        }
+
+
+
+
+
+       
+        char[][] output = new char[rows][];
+        for(int i = 0; i < rows;i++)
+        {
+            output[i] = new char[columns];
+        }
+
+
+        
+
+        foreach(char[] arr in output)
+        {
+            
+            int index =0;
+            for(int i = 1; i < leet.IndexOf(']'); i++)
+            {
+                char currIndex = leet[i];
+                arr[index] = currIndex;
+                index++;
+
+            }
+            leet = leet.Remove(0, leet.IndexOf(']') + 1);
+        }
+
+        return output;
+
+
+    }
+
+
+    public double get1BasedQuotient(double num)
+    {
+        double numerator = 0.00;
+        double count = 1;
+
+        while(num % 1 != 0)
+        {
+            count *= 10;
+            num *= 10;
+        }
+
+        numerator = num;
+        double denominator = count;
+
+
+        return denominator / numerator;
+
+
+    }
+
 
     //43. Multiply Strings
     public string Multiply(string num1, string num2)
@@ -692,6 +793,37 @@ internal class Problems
         foreach (int[] arr in matrix)
         {
             foreach(int i in arr)
+            {
+                Console.Write("[" + i + "]");
+            }
+            Console.WriteLine();
+        }
+
+
+    }
+    void printArrofArrs(char[][] matrix)
+    {
+
+
+        foreach (char[] arr in matrix)
+        {
+            foreach(char i in arr)
+            {
+                Console.Write("[" + i + "]");
+            }
+            Console.WriteLine();
+        }
+
+
+    }
+
+    void printArrofArrs(string[][] matrix)
+    {
+
+
+        foreach (string[] arr in matrix)
+        {
+            foreach (string i in arr)
             {
                 Console.Write("[" + i + "]");
             }
