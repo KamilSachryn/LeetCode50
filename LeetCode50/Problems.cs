@@ -17,42 +17,30 @@ internal class Problems
 
         string num1 = "123";
         string num2 = "456";
-      // string output = Multiply(num1, num2);
-
-       // Console.WriteLine(output); 
-        //Console.WriteLine(addStringNumbers("1368", "9120")); 
-
-        String leetString = "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]";
-        Console.WriteLine(leetString);
-        char[][] board = convertLeetCode2dArrString(leetString);
-
-        Console.WriteLine(Exist(board, "ABCCED"));
+        string output = " a b c  d ";
+        Console.WriteLine(ReverseWords( output));
 
     }
 
-    //79. Word Search
-    public bool Exist(char[][] board, string word)
+    //151. Reverse Words in a String
+    public string ReverseWords(string s)
     {
-        printArrofArrs(board);
-        Console.WriteLine("\nRemoving letters not in " + word + "\n");
+        s = s.Trim();
+        s = System.Text.RegularExpressions.Regex.Replace(s, "  *", " ");
 
-        for(int i = 0; i < board.Length; i++)
+        List<String> list = s.Split(' ').ToList();
+
+        s = "";
+
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            for(int j = 0; j < board[0].Length; j++)
-            {
-                if (!word.Contains(board[i][j]))
-                {
-                    board[i][j] = ' ';
-                }
-            }
+            s += list[i] + ' ';
         }
 
-        printArrofArrs(board);
-
-        return true;
-
+        return s.Trim();
 
     }
+
 
 
     public char[][] convertLeetCode2dArrString(String leet)
