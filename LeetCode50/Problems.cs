@@ -18,8 +18,62 @@ internal class Problems
         string num1 = "123";
         string num2 = "456";
         string output = " a b c  d ";
-        Console.WriteLine(ReverseWords( output));
+        //Console.WriteLine(ReverseWords( output));
 
+        Console.WriteLine("1: " + HIndex(new int[] {1,3,1}));
+        Console.WriteLine("2: " + HIndex(new int[] { 3, 0, 6, 1, 5 }));
+
+
+
+    }
+
+
+    //274. H-Index
+    public int HIndex(int[] citations)
+    {
+        int maxPapers = 0;
+
+        Console.WriteLine("numCitations : Papers with >= citations");
+        //Citations, num of papers with cit
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+
+        for(int i = 0; i < citations.Length; i++)
+        {
+            if(!dict.ContainsKey(citations[i]))
+
+            {
+                dict.Add(citations[i], 0);
+            }
+
+            foreach (int key in dict.Keys)
+            {
+                if (dict[key] <= citations[i])
+                {
+                    dict[key]++;
+                }
+                    
+            }
+            
+
+        
+        }
+
+        foreach(int numCitations in dict.Keys)
+        {
+
+            
+            int numPapersWithAtleastCitations = dict[numCitations];
+
+            Console.WriteLine(numCitations + " :: " + numPapersWithAtleastCitations);
+
+
+
+
+        }
+
+
+
+        return maxPapers;
     }
 
     //151. Reverse Words in a String
