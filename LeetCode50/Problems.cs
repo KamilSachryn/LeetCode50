@@ -20,8 +20,9 @@ internal class Problems
         string output = " a b c  d ";
         //Console.WriteLine(ReverseWords( output));
 
-        Console.WriteLine("1: " + HIndex(new int[] {1,3,1}));
-        Console.WriteLine("2: " + HIndex(new int[] { 3, 0, 6, 1, 5 }));
+       // Console.WriteLine("1: " + HIndex(new int[] {100}));
+        Console.WriteLine(HIndex(new int[] { 100}));
+       // Console.WriteLine(HIndex(new int[] { 3, 0, 6, 1, 5 }));
 
 
 
@@ -31,49 +32,67 @@ internal class Problems
     //274. H-Index
     public int HIndex(int[] citations)
     {
+        int h = 0;
+
+        // Key: Number of citations  Value: Number of papers with atleast <key> citations
+        Dictionary<int, int> citationDb = new Dictionary<int, int>();
+
+
+        //The h-index is defined as the maximum value of h such that the given researcher has published at least h papers that have each been cited at least h times.
+        //so, make a database of how many papers have been cited atleast n times?
+
+        foreach (int i in citations)
+        {
+            if (!citationDb.ContainsKey(i))
+            {
+                citationDb.Add(i, 0);
+            }
+        }
+
+        foreach (int i in citations)
+        {
+            foreach (int key in citationDb.Keys)
+            {
+                if (key <= i)
+                    citationDb[key]++;
+            }
+        }
+
+
         int maxPapers = 0;
+        int maxCitations = 0;
 
-        Console.WriteLine("numCitations : Papers with >= citations");
-        //Citations, num of papers with cit
-        Dictionary<int, int> dict = new Dictionary<int, int>();
-
-        for(int i = 0; i < citations.Length; i++)
+        foreach (int key in citationDb.Keys)
         {
-            if(!dict.ContainsKey(citations[i]))
+      //      Console.WriteLine(key + " : " + citationDb[key]);
 
-            {
-                dict.Add(citations[i], 0);
-            }
+            //so we have a db of citations with # of papers
+            //we want..the biggest number of papers with atleast papers citations?
+            //no
+            //we want the biggest number of citations where papers is aleast equal to citations
 
-            foreach (int key in dict.Keys)
+            int numPapers = citationDb[key];
+
+            if(numPapers >= key)
             {
-                if (dict[key] <= citations[i])
+                if(maxCitations < key)
                 {
-                    dict[key]++;
+                    maxCitations = key;
                 }
-                    
             }
             
-
-        
-        }
-
-        foreach(int numCitations in dict.Keys)
-        {
-
-            
-            int numPapersWithAtleastCitations = dict[numCitations];
-
-            Console.WriteLine(numCitations + " :: " + numPapersWithAtleastCitations);
-
-
-
+            if(key >= numPapers)
+            {
+                if(maxPapers < numPapers)
+                {
+                    maxPapers = numPapers;
+                }
+            }
 
         }
 
 
-
-        return maxPapers;
+        return Math.Max(maxCitations, maxPapers);
     }
 
     //151. Reverse Words in a String
