@@ -21,11 +21,66 @@ internal class Problems
         //Console.WriteLine(ReverseWords( output));
 
        // Console.WriteLine("1: " + HIndex(new int[] {100}));
-        Console.WriteLine(HIndex(new int[] { 100}));
-       // Console.WriteLine(HIndex(new int[] { 3, 0, 6, 1, 5 }));
+      //  Console.WriteLine(HIndex(new int[] { 100}));
+        foreach(string s in SummaryRanges(new int[] { 0,1,2,4,5,7 }))
+        {
+            Console.Write(s + ',');
+        }
 
 
 
+    }
+
+    //228. Summary Ranges
+    public IList<string> SummaryRanges(int[] nums)
+    {
+        List<string> output = new List<string>();
+        output.EnsureCapacity(nums.Length);
+
+
+        if (nums.Length == 0)
+            return output;
+
+        int rangeStart = nums[0];
+        int prev = nums[0];
+        for(int i = 1; i < nums.Length; i++)
+        {
+            int curr = nums[i];
+
+            if(curr - 1 != prev)
+            {
+
+                if (rangeStart == prev)
+                {
+                    output.Add(prev.ToString());
+                }
+                else
+                {
+                    output.Add(rangeStart.ToString() + "->" + prev.ToString());
+                }
+                rangeStart = curr;
+
+
+            }
+
+            prev = curr;
+
+
+
+        }
+
+        if(rangeStart == nums[nums.Length - 1])
+        {
+            output.Add(rangeStart.ToString());
+        }
+        else
+        {
+            output.Add(rangeStart.ToString() + "->" + nums[nums.Length - 1].ToString());
+        }
+
+
+
+        return output;
     }
 
 
