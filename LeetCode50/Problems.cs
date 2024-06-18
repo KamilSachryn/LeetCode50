@@ -20,16 +20,133 @@ internal class Problems
         string output = " a b c  d ";
         //Console.WriteLine(ReverseWords( output));
 
-       // Console.WriteLine("1: " + HIndex(new int[] {100}));
-      //  Console.WriteLine(HIndex(new int[] { 100}));
-        foreach(string s in SummaryRanges(new int[] { 0,1,2,4,5,7 }))
+        // Console.WriteLine("1: " + HIndex(new int[] {100}));
+        //  Console.WriteLine(HIndex(new int[] { 100}));
+        ListNode input = ListNode.generateLinkedList(new List<int> { 1, 2, 3, 4, 5 });
+
+        List<int> a = ListNode.linkedListToList( RotateRight(input, 2));
+
+        for(int i = 0; i < a.Count; i++)
         {
-            Console.Write(s + ',');
+            Console.Write(a[i] + "->");
         }
+
+
+    }
+
+    //61. Rotate List
+    public ListNode RotateRight(ListNode head, int k)
+    {
+
+        if (head == null)
+            return null;
+        if (head.next == null)
+            return head;
+
+
+        int headLen = 1;
+
+        ListNode tmpHead = head;
+        while(tmpHead.next != null)
+        {
+            headLen++;
+            tmpHead = tmpHead.next;
+        }
+        Console.WriteLine(headLen);
+
+
+        for (k = k % headLen ; k > 0; k--)
+            head = RotateRight(head);
+
+
+
+        return head;
+
 
 
 
     }
+    public ListNode RotateRight(ListNode head)
+    {
+        if (head.next == null)
+            return head;
+
+        //1 -> 2 -> 3 -> 4 -> 5
+
+
+        ListNode newHead = new ListNode(0, head);
+        //0 -> 1 -> 2 -> 3 -> 4 -> 5
+
+        ListNode tailVal = new ListNode(0);
+
+        ListNode tmpList = head;
+        while(tmpList != null)
+        {
+            tailVal = tmpList;
+            tmpList = tmpList.next;
+        }
+
+
+
+        newHead.val = tailVal.val;
+
+
+
+
+        newHead = removeTail(newHead);
+
+
+
+
+
+
+        return newHead;
+
+
+
+
+
+    }
+
+
+    ListNode removeTail(ListNode head)
+    {
+        if (head == null)
+            return null;
+        if (head.next == null)
+            return null;
+
+
+        ListNode secondLast = head;
+        while(secondLast.next.next != null)
+        {
+            secondLast = secondLast.next;
+        }
+        secondLast.next = null;
+
+        return head;
+
+
+
+    }
+
+    //58. Length of Last Word
+
+    public int LengthOfLastWord(string s)
+    {
+        s = s.TrimEnd();
+        for(int i = s.Length - 1; i >= 0; i--)
+        {
+            if (s[i] == ' ')
+            {
+                return s.Length - i - 1;
+            }
+        }
+
+        return s.Length;
+
+    }
+
 
     //228. Summary Ranges
     public IList<string> SummaryRanges(int[] nums)
