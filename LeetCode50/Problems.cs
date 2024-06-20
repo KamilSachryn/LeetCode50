@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
@@ -15,23 +16,108 @@ internal class Problems
     {
 
 
-        string num1 = "123";
-        string num2 = "456";
-        string output = " a b c  d ";
-        //Console.WriteLine(ReverseWords( output));
 
-        // Console.WriteLine("1: " + HIndex(new int[] {100}));
-        //  Console.WriteLine(HIndex(new int[] { 100}));
-        ListNode input = ListNode.generateLinkedList(new List<int> { 1, 2, 3, 4, 5 });
+        string s = "ccaccc";
+        List<string> dict = new List<string>();
+        dict.Add("cc");
+        dict.Add("ac");
+        Console.WriteLine(WordBreak(s, dict));
 
-        List<int> a = ListNode.linkedListToList( RotateRight(input, 2));
 
-        for(int i = 0; i < a.Count; i++)
+    }
+
+    //139. Word Break
+    public bool WordBreak(string s, IList<string> wordDict)
+    {
+        //make sure to go through every word and not accidentally remove words thats are part of another
+        while (wordDict.Count > 0)
         {
-            Console.Write(a[i] + "->");
+            string testString = s;
+            //check if each word is in the string individually
+            foreach (string word in wordDict)
+            {
+
+                Console.WriteLine("Checking string " + testString + " for " + word);
+                //remove every instance of the current word
+                //ISSUE: need to make sure we dont just remove left to right
+
+                MatchCollection coll = Regex.Matches(testString, word);
+
+                foreach(Match match in coll)
+                {
+                    Regex regex = new Regex(word);
+                    string firstHalf = testString.Substring(0, match.Index);
+                    string secondHalf = testString.Substring(match.Index);
+                    secondHalf = regex.Replace(secondHalf, "", 1);
+                    testString = firstHalf + secondHalf;
+                }
+
+                if (testString.Trim().Length == 0)
+                    return true;
+
+
+
+
+            }
+
+            wordDict.RemoveAt(0);
         }
 
+        return false;
 
+
+
+    }
+
+
+
+
+
+
+    //56. Merge Intervals
+    public int[][] Merge(int[][] intervals)
+    {
+        //[[1,3],[2,6],[8,10],[15,18]]
+        Array.Sort(intervals, (x, y) => { return x[0] - y[0]; });
+
+        List<int[]> output = new List<int[]>();
+
+        int[] previous = intervals[0];
+
+        bool prevNotInStack = true;
+
+        for (int i = 1; i < intervals.Length; i++)
+        {
+            int[] current = intervals[i];
+            //prev[0] is always smaller than current[0]
+
+            //check if current[0] is < prev[1]
+            if (current[0] <= previous[1])
+            {
+                //new prev[1] is max of current[1] and prev[1]
+                previous[1] = Math.Max(current[1], previous[1]);
+                prevNotInStack = true;
+                //move on
+                //MAKE SURE TO CHECK IF PREV IS ACTIVE AFTER LOOP
+            }
+            else
+            {
+                //else current[0]  is not within range is previous
+                //so add prev to stack
+                output.Add(previous);
+                prevNotInStack = false;
+                //make current be new prev
+                previous = current;
+            }
+
+
+        }
+
+        output.Add(previous);
+
+
+
+        return output.ToArray();
     }
 
     //61. Rotate List
@@ -47,7 +133,7 @@ internal class Problems
         int headLen = 1;
 
         ListNode tmpHead = head;
-        while(tmpHead.next != null)
+        while (tmpHead.next != null)
         {
             headLen++;
             tmpHead = tmpHead.next;
@@ -55,7 +141,7 @@ internal class Problems
         Console.WriteLine(headLen);
 
 
-        for (k = k % headLen ; k > 0; k--)
+        for (k = k % headLen; k > 0; k--)
             head = RotateRight(head);
 
 
@@ -80,7 +166,7 @@ internal class Problems
         ListNode tailVal = new ListNode(0);
 
         ListNode tmpList = head;
-        while(tmpList != null)
+        while (tmpList != null)
         {
             tailVal = tmpList;
             tmpList = tmpList.next;
@@ -118,7 +204,7 @@ internal class Problems
 
 
         ListNode secondLast = head;
-        while(secondLast.next.next != null)
+        while (secondLast.next.next != null)
         {
             secondLast = secondLast.next;
         }
@@ -135,7 +221,7 @@ internal class Problems
     public int LengthOfLastWord(string s)
     {
         s = s.TrimEnd();
-        for(int i = s.Length - 1; i >= 0; i--)
+        for (int i = s.Length - 1; i >= 0; i--)
         {
             if (s[i] == ' ')
             {
@@ -160,11 +246,11 @@ internal class Problems
 
         int rangeStart = nums[0];
         int prev = nums[0];
-        for(int i = 1; i < nums.Length; i++)
+        for (int i = 1; i < nums.Length; i++)
         {
             int curr = nums[i];
 
-            if(curr - 1 != prev)
+            if (curr - 1 != prev)
             {
 
                 if (rangeStart == prev)
@@ -186,7 +272,7 @@ internal class Problems
 
         }
 
-        if(rangeStart == nums[nums.Length - 1])
+        if (rangeStart == nums[nums.Length - 1])
         {
             output.Add(rangeStart.ToString());
         }
@@ -236,7 +322,7 @@ internal class Problems
 
         foreach (int key in citationDb.Keys)
         {
-      //      Console.WriteLine(key + " : " + citationDb[key]);
+            //      Console.WriteLine(key + " : " + citationDb[key]);
 
             //so we have a db of citations with # of papers
             //we want..the biggest number of papers with atleast papers citations?
@@ -245,17 +331,17 @@ internal class Problems
 
             int numPapers = citationDb[key];
 
-            if(numPapers >= key)
+            if (numPapers >= key)
             {
-                if(maxCitations < key)
+                if (maxCitations < key)
                 {
                     maxCitations = key;
                 }
             }
-            
-            if(key >= numPapers)
+
+            if (key >= numPapers)
             {
-                if(maxPapers < numPapers)
+                if (maxPapers < numPapers)
                 {
                     maxPapers = numPapers;
                 }
@@ -290,6 +376,9 @@ internal class Problems
 
     public char[][] convertLeetCode2dArrString(String leet)
     {
+        //[[1,3],[2,6],[8,10],[15,18]]
+
+
         leet = leet.Remove(0, 1);
         leet = leet.Remove(leet.Length - 1, 1);
         leet = leet.Replace("\"", "");
@@ -305,25 +394,20 @@ internal class Problems
             }
         }
 
-
-
-
-
-       
         char[][] output = new char[rows][];
-        for(int i = 0; i < rows;i++)
+        for (int i = 0; i < rows; i++)
         {
             output[i] = new char[columns];
         }
 
 
-        
 
-        foreach(char[] arr in output)
+
+        foreach (char[] arr in output)
         {
-            
-            int index =0;
-            for(int i = 1; i < leet.IndexOf(']'); i++)
+
+            int index = 0;
+            for (int i = 1; i < leet.IndexOf(']'); i++)
             {
                 char currIndex = leet[i];
                 arr[index] = currIndex;
@@ -338,13 +422,46 @@ internal class Problems
 
     }
 
+    public int[][] convertLeetCode2dIntArrString(String leet)
+    {
+        String[] split = Regex.Split(leet, "],\\[");
+
+        for (int i = 0; i < split.Length; i++)
+        {
+            split[i] = Regex.Replace(split[i], "(\\[|\\])", "");
+        }
+
+
+
+        int[][] output = new int[split.Length][];
+        int index = 0;
+        foreach (string s in split)
+        {
+            int[] newSubarray = new int[Regex.Matches(s, "[0-9]+").Count];
+            int subindex = 0;
+            foreach (string sub in Regex.Split(s, ","))
+            {
+                newSubarray[subindex++] = int.Parse(sub);
+            }
+            output[index++] = newSubarray;
+        }
+
+        return output;
+
+
+
+
+
+
+    }
+
 
     public double get1BasedQuotient(double num)
     {
         double numerator = 0.00;
         double count = 1;
 
-        while(num % 1 != 0)
+        while (num % 1 != 0)
         {
             count *= 10;
             num *= 10;
@@ -375,21 +492,21 @@ internal class Problems
         List<string> numsToAdd = new List<string>();
 
 
-        for(int i = num1.Length -1; i >= 0; i--)
+        for (int i = num1.Length - 1; i >= 0; i--)
         {
 
             string top = num1[i].ToString();
-         //   Console.WriteLine("TOP: " + top);
+            //   Console.WriteLine("TOP: " + top);
             string numToAdd = "";
             string hold = "";
-            
-            for(int j = num2.Length - 1; j >= 0; j--)
+
+            for (int j = num2.Length - 1; j >= 0; j--)
             {
 
                 string bottom = num2[j].ToString();
-         //       Console.WriteLine("BOTTOM: " + bottom);
+                //       Console.WriteLine("BOTTOM: " + bottom);
 
-                string n = (int.Parse(bottom) * int.Parse(top) + ( hold != "" ? int.Parse(hold) : 0 )).ToString();
+                string n = (int.Parse(bottom) * int.Parse(top) + (hold != "" ? int.Parse(hold) : 0)).ToString();
                 if (n.Length > 1)
                 {
                     hold = n.Substring(0, 1);
@@ -403,37 +520,37 @@ internal class Problems
                 numToAdd = numToAdd.Insert(0, n);
 
 
-           //     Console.WriteLine(String.Format("num to add jloop {0} = {1} * {2}, hold = {3}", numToAdd, int.Parse(bottom), int.Parse(top), hold));
+                //     Console.WriteLine(String.Format("num to add jloop {0} = {1} * {2}, hold = {3}", numToAdd, int.Parse(bottom), int.Parse(top), hold));
 
 
 
 
             }
-        //    Console.WriteLine(String.Format("num to add before hold change {0}, hold {1}", numToAdd, hold));
+            //    Console.WriteLine(String.Format("num to add before hold change {0}, hold {1}", numToAdd, hold));
             if (hold != "")
             {
                 numToAdd = numToAdd.Insert(0, hold);
                 hold = "";
             }
 
-            for(int k = 0; k < numsToAdd.Count; k++)
+            for (int k = 0; k < numsToAdd.Count; k++)
             {
                 numToAdd += "0";
             }
 
-       //     Console.WriteLine(String.Format("num to add after hold change {0}, hold {1}", numToAdd, hold));
+            //     Console.WriteLine(String.Format("num to add after hold change {0}, hold {1}", numToAdd, hold));
             numsToAdd.Add(numToAdd);
 
 
         }
-     //   Console.WriteLine("-- adding --");
+        //   Console.WriteLine("-- adding --");
 
-        foreach(string a in numsToAdd)
+        foreach (string a in numsToAdd)
         {
-     //       Console.WriteLine(output + ", " + a);
-           // output = (int.Parse(output) + int.Parse(a)).ToString();
+            //       Console.WriteLine(output + ", " + a);
+            // output = (int.Parse(output) + int.Parse(a)).ToString();
             output = AddStrings(output, a);
-    //        Console.WriteLine(a);
+            //        Console.WriteLine(a);
         }
 
 
@@ -450,9 +567,9 @@ internal class Problems
 
         string hold = "0";
 
-        while(leftHead >= 0 || rightHead >= 0 || hold != "0")
+        while (leftHead >= 0 || rightHead >= 0 || hold != "0")
         {
-            if(leftHead >= 0 && rightHead >= 0)
+            if (leftHead >= 0 && rightHead >= 0)
             {
                 string left = num1.Substring(leftHead, 1);
                 string right = num2.Substring(rightHead, 1);
@@ -463,7 +580,7 @@ internal class Problems
 
                 int sum = leftDigit + rightDigit + holdDigit;
 
-                if(sum >= 10)
+                if (sum >= 10)
                 {
                     sum -= 10;
                     holdDigit = 1;
@@ -481,7 +598,7 @@ internal class Problems
 
 
             }
-            else if(leftHead >= 0)
+            else if (leftHead >= 0)
             {
                 string left = num1.Substring(leftHead, 1);
                 int leftDigit = int.Parse(left);
@@ -502,7 +619,7 @@ internal class Problems
                 output = output.Insert(0, sum.ToString());
                 leftHead--;
             }
-            else if(rightHead >= 0)
+            else if (rightHead >= 0)
             {
                 string right = num2.Substring(rightHead, 1);
                 int rightDigit = int.Parse(right);
@@ -552,7 +669,7 @@ internal class Problems
         int white = 0;
         int blue = 0;
 
-        foreach(int i in nums)
+        foreach (int i in nums)
         {
             if (i == 0)
                 red++;
@@ -564,7 +681,7 @@ internal class Problems
 
         }
 
-        for(int i = 0; i < nums.Length; i++)
+        for (int i = 0; i < nums.Length; i++)
         {
             nums[i] = red-- > 0 ? 0 : (white-- > 0 ? 1 : 2);
         }
@@ -572,9 +689,9 @@ internal class Problems
 
     //1019. Next Greater Node In Linked List
     public int[] NextLargerNodes(ListNode head)
-    { 
+    {
         //       index        index of bigger,  value of original  val of bigger
-        Dictionary<int, Tuple<int,               int,               int>> dict = new Dictionary<int, Tuple<int, int, int>>();
+        Dictionary<int, Tuple<int, int, int>> dict = new Dictionary<int, Tuple<int, int, int>>();
         int i = 0;
         List<int> list = new List<int>();
         int[] output = new int[i];
@@ -583,16 +700,16 @@ internal class Problems
         {
             dict.Add(i, new Tuple<int, int, int>(0, head.val, 0));
             list.Add(i);
-            foreach(int key in dict.Keys)
+            foreach (int key in dict.Keys)
             {
                 Tuple<int, int, int> value = dict[key];
-                if(value.Item1 == 0)
+                if (value.Item1 == 0)
                 {
-                    if(value.Item2 < head.val)
+                    if (value.Item2 < head.val)
                     {
                         list[i] = value.Item3;
-                       // dict[key] = new Tuple<int, int, int>(i, value.Item2, head.val);
-                       dict.Remove(key);
+                        // dict[key] = new Tuple<int, int, int>(i, value.Item2, head.val);
+                        dict.Remove(key);
 
                     }
                 }
@@ -606,7 +723,7 @@ internal class Problems
 
 
 
-        return list.ToArray() ;
+        return list.ToArray();
 
 
     }
@@ -623,11 +740,11 @@ internal class Problems
         Dictionary<double, int> dict = new Dictionary<double, int>();
 
 
-        for(int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Length; i++)
         {
-            for(int j = 0; j < points.Length; j++)
+            for (int j = 0; j < points.Length; j++)
             {
-                
+
 
                 int x1 = points[i][0];
                 int y1 = points[i][1];
@@ -639,7 +756,7 @@ internal class Problems
 
                 double dist = distanceBetweenTwoPoints(x1, y1, x2, y2);
 
-                if(dict.ContainsKey(dist))
+                if (dict.ContainsKey(dist))
                 {
                     dict[dist]++;
                 }
@@ -651,7 +768,7 @@ internal class Problems
 
             }
 
-            foreach(double key in dict.Keys)
+            foreach (double key in dict.Keys)
             {
                 /*
                 Console.WriteLine(String.Format("{0} : {1}", key, dict[key]));
@@ -678,12 +795,12 @@ internal class Problems
     {
         int count = 0;
 
-        for(int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Length; i++)
         {
             int x1 = points[i][0];
             int y1 = points[i][1];
 
-            for(int j = 0; j < points.Length; j++)
+            for (int j = 0; j < points.Length; j++)
             {
                 int x2 = points[j][0];
                 int y2 = points[j][1];
@@ -700,7 +817,7 @@ internal class Problems
                         {
                             double distBetweenFirstTwo = distanceBetweenTwoPoints(x1, y1, x2, y2);
                             double distBetweenSecondTwo = distanceBetweenTwoPoints(x1, y1, x3, y3);
-                           // Console.WriteLine(String.Format("({0}, {1}), ({2}, {3}), ({4}, {5}), 1st dist: {6}, 2nd dist: {7}", x1, y1, x2, y2, x3, y3, distBetweenFirstTwo, distBetweenSecondTwo));
+                            // Console.WriteLine(String.Format("({0}, {1}), ({2}, {3}), ({4}, {5}), 1st dist: {6}, 2nd dist: {7}", x1, y1, x2, y2, x3, y3, distBetweenFirstTwo, distBetweenSecondTwo));
 
                             if (distBetweenFirstTwo == distBetweenSecondTwo)
                             {
@@ -753,10 +870,10 @@ internal class Problems
         int largest = revHead.val;
 
         ListNode outputHead = new ListNode(0);
-        ListNode output = new  ListNode(revHead.val);
+        ListNode output = new ListNode(revHead.val);
         outputHead.next = output;
         revHead = revHead.next;
-        while(revHead != null)
+        while (revHead != null)
         {
 
             if (revHead.val >= largest)
@@ -765,11 +882,11 @@ internal class Problems
                 output.next = new ListNode(revHead.val);
                 output = output.next;
                 largest = revHead.val;
-               
+
             }
             revHead = revHead.next;
         }
-        
+
 
         return reverseListNode(outputHead.next);
 
@@ -783,14 +900,14 @@ internal class Problems
         //1 -> 2 -> 3 -> null
         //smallest case: 3 -> null
         //so build up from 3
-        if(n == null)
+        if (n == null)
         {
             return n;
         }
 
 
         ListNode tmp = n;
-        if(n.next != null)
+        if (n.next != null)
         {
             tmp = reverseListNode(n.next);
             n.next.next = n;
@@ -798,9 +915,9 @@ internal class Problems
         n.next = null;
 
         return tmp;
-        
 
-        
+
+
 
 
     }
@@ -852,10 +969,10 @@ internal class Problems
     {
         int len = s.Length;
         int i = 0;
-        while(i < len-1)
+        while (i < len - 1)
         {
             bool dec = true;
-            if (s[i] == s[i+1])
+            if (s[i] == s[i + 1])
             {
                 s = s.Remove(i, 2);
                 dec = false;
@@ -888,15 +1005,15 @@ internal class Problems
     {
 
         Console.Write("Nums: ");
-        for(int i = 0; i < nums.Length; i++)
+        for (int i = 0; i < nums.Length; i++)
         {
             Console.Write(nums[i] + ", ");
         }
         Console.WriteLine();
 
-        if(nums.Length == 0)
+        if (nums.Length == 0)
         {
-            if(p1Score > p2Score)
+            if (p1Score > p2Score)
             {
                 return true;
             }
@@ -910,7 +1027,7 @@ internal class Problems
 
         bool output = false;
         int[] leftNums = new int[nums.Length - 1];
-        for(int i = 1; i < nums.Length; i++)
+        for (int i = 1; i < nums.Length; i++)
         {
             leftNums[i - 1] = nums[i];
         }
@@ -924,7 +1041,7 @@ internal class Problems
         if (p1Turn)
         {
             output = PredictTheWinner(leftNums, p1Score + nums[0], p2Score, false);
-            if(output != true)
+            if (output != true)
             {
                 output = PredictTheWinner(rightNums, p1Score + nums[nums.Length - 1], p2Score, false);
             }
@@ -934,23 +1051,23 @@ internal class Problems
             output = PredictTheWinner(leftNums, p1Score, p2Score + nums[0], true);
             if (output != true)
             {
-                output = PredictTheWinner(rightNums, p1Score , p2Score + nums[nums.Length - 1], true);
+                output = PredictTheWinner(rightNums, p1Score, p2Score + nums[nums.Length - 1], true);
             }
         }
 
         return output;
 
 
-    } 
+    }
 
     //48. Rotate Image
     public void Rotate(int[][] matrix, bool inplace)
     {
 
 
-        for(int i = 0; i < matrix.Length; i++)
+        for (int i = 0; i < matrix.Length; i++)
         {
-            for(int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++)
             {
                 int hold = matrix[i][j];
                 int hold2 = matrix[j][i];
@@ -959,9 +1076,9 @@ internal class Problems
             }
         }
 
-        for(int i = 0; i < matrix.Length ; i++)
+        for (int i = 0; i < matrix.Length; i++)
         {
-            for(int j = 0; j < matrix.Length / 2; j++)
+            for (int j = 0; j < matrix.Length / 2; j++)
             {
                 int hold1 = matrix[i][j];
                 int hold2 = matrix[i][matrix.Length - 1 - j];
@@ -971,7 +1088,7 @@ internal class Problems
 
             }
         }
-                   
+
     }
 
     public void Rotate(int[][] matrix)
@@ -982,7 +1099,7 @@ internal class Problems
 
 
         int[][] output = new int[matrix.Length][];
-        for(int i = 0; i < output.Length; i++)
+        for (int i = 0; i < output.Length; i++)
         {
             output[i] = new int[matrix[0].Length];
         }
@@ -1003,10 +1120,10 @@ internal class Problems
         int height = matrix[0].Length;
 
 
-        for(int i = 0; i < matrix.Length; i++)
+        for (int i = 0; i < matrix.Length; i++)
         {
 
-            for(int j = 0; j < matrix.Length; j++)
+            for (int j = 0; j < matrix.Length; j++)
             {
                 output[j][height - i - 1] = matrix[i][j];
 
@@ -1025,7 +1142,7 @@ internal class Problems
 
         foreach (int[] arr in matrix)
         {
-            foreach(int i in arr)
+            foreach (int i in arr)
             {
                 Console.Write("[" + i + "]");
             }
@@ -1040,7 +1157,7 @@ internal class Problems
 
         foreach (char[] arr in matrix)
         {
-            foreach(char i in arr)
+            foreach (char i in arr)
             {
                 Console.Write("[" + i + "]");
             }
@@ -1069,27 +1186,27 @@ internal class Problems
     // 204. Count Primes
     public int CountPrimes(int n)
     {
-        bool[] sieve = new bool[n ];
+        bool[] sieve = new bool[n];
         int output = 0;
         if (n <= 2)
             return 0;
-        for(int i = 4; i < sieve.Length; i+=2)
+        for (int i = 4; i < sieve.Length; i += 2)
         {
             sieve[i] = true;
         }
 
-        for(int i = 3; i < sieve.Length; i++)
+        for (int i = 3; i < sieve.Length; i++)
         {
-            if(!sieve[i])
+            if (!sieve[i])
             {
-                for(int j = i + i; j < sieve.Length; j+=i)
+                for (int j = i + i; j < sieve.Length; j += i)
                 {
                     sieve[j] = true;
                 }
             }
         }
 
-        for(int i = 2; i < sieve.Length;i++)
+        for (int i = 2; i < sieve.Length; i++)
         {
 
             // Console.WriteLine(i + " is " + (sieve[i] ? "not prime" : "prime"));
@@ -1114,7 +1231,7 @@ internal class Problems
         int left = 0;
         int right = s.Length - 1;
 
-        while(left <= right)
+        while (left <= right)
         {
             if (s[left++] != s[right--])
                 return false;
@@ -1151,7 +1268,7 @@ internal class Problems
     public int HammingWeight(int n)
     {
         int count = 0;
-        while(n >= 1)
+        while (n >= 1)
         {
             count += n % 2;
             n /= 2;
@@ -1231,7 +1348,7 @@ internal class Problems
             movingPointer++;
         }
 
-        foreach(int i in nums)
+        foreach (int i in nums)
         {
             Console.Write(i + ", ");
         }
@@ -1243,9 +1360,9 @@ internal class Problems
     {
         int output = 0;
 
-        for(int i = 0; i < startTime.Length; i++)
+        for (int i = 0; i < startTime.Length; i++)
         {
-            if (startTime[i] <= queryTime && endTime[i] >= queryTime )
+            if (startTime[i] <= queryTime && endTime[i] >= queryTime)
                 output++;
         }
 
@@ -1258,9 +1375,9 @@ internal class Problems
     {
         Dictionary<int, string> dict = new Dictionary<int, string>();
         string build = "";
-        for(int i = 0; i < s.Length; i++)
+        for (int i = 0; i < s.Length; i++)
         {
-            if(char.IsDigit(s[i])) //is a number
+            if (char.IsDigit(s[i])) //is a number
             {
                 dict.Add(s[i] - '0', build);
                 build = "";
@@ -1276,14 +1393,14 @@ internal class Problems
         }
 
         string output = "";
-        for(int i = 1; i <= dict.Count; i++)
+        for (int i = 1; i <= dict.Count; i++)
         {
             output += dict[i];
             output += ' ';
         }
 
         return output.Trim();
-       
+
 
 
 
@@ -1298,7 +1415,7 @@ internal class Problems
         int i = m + n - 1;
 
 
-        while(right >= 0)
+        while (right >= 0)
         {
             if (left >= 0 && nums1[left] > nums2[right])
             {
@@ -1358,7 +1475,7 @@ internal class Problems
         ListNode prev = head;
         ListNode newHead = head;
         head = head.next;
-        while(head != null)
+        while (head != null)
         {
             if (head.val == prev.val)
             {
@@ -1425,11 +1542,11 @@ internal class Problems
 
         Dictionary<int, int> dict = new Dictionary<int, int>();
         return ClimbStairs(n, dict);
-        
 
 
 
-   
+
+
     }
 
     public int ClimbStairs(int n, Dictionary<int, int> dict)
@@ -1438,9 +1555,9 @@ internal class Problems
         if (n == 0)
             return 1;
         if (n == 1)
-            return 1;  
+            return 1;
 
-        if(!dict.ContainsKey(n))
+        if (!dict.ContainsKey(n))
         {
             dict.Add(n, ClimbStairs(n - 1, dict) + ClimbStairs(n - 2, dict));
         }
@@ -1458,7 +1575,7 @@ internal class Problems
         int left = 0;
         int right = x / 2;
         int best = 1;
-        while(left != right)
+        while (left != right)
         {
             Console.WriteLine("Left: " + left + ", Right: " + right);
             int lPow = (int)Math.Pow(left, 2);
@@ -1470,10 +1587,10 @@ internal class Problems
 
             if (lPow > x)
                 left /= 2;
-            if(rPow < x)
+            if (rPow < x)
                 right *= 2;
             best = left;
-            
+
 
         }
 
@@ -1487,9 +1604,9 @@ internal class Problems
         int ptrB = b.Length - 1;
         string output = "";
         int carry = 0;
-        
 
-        while( ptrA >= 0 || ptrB >= 0 )
+
+        while (ptrA >= 0 || ptrB >= 0)
         {
             if (ptrA >= 0 && ptrB >= 0)
             {
@@ -1514,10 +1631,10 @@ internal class Problems
                     carry = 0;
                     output = output.Insert(0, sum.ToString());
                 }
-                    ptrA--;
-                    ptrB--;
+                ptrA--;
+                ptrB--;
             }
-            else if(ptrA >= 0)
+            else if (ptrA >= 0)
             {
                 int aa = a[ptrA] == '1' ? 1 : 0;
                 int sum = aa + carry;
@@ -1533,7 +1650,7 @@ internal class Problems
                 }
                 ptrA--;
             }
-            else if(ptrB >= 0)
+            else if (ptrB >= 0)
             {
                 int bb = b[ptrB] == '1' ? 1 : 0;
                 int sum = bb + carry;
@@ -1550,9 +1667,9 @@ internal class Problems
                 ptrB--;
             }
         }
-        if(carry == 1)
+        if (carry == 1)
             output = output.Insert(0, "1");
-        
+
         output = output.TrimStart('0');
 
         if (output.Length == 0)
@@ -1568,7 +1685,7 @@ internal class Problems
     {
         int remainder = 1;
 
-        for(int i = digits.Length - 1; i >= 0; i--)
+        for (int i = digits.Length - 1; i >= 0; i--)
         {
             if (digits[i] < 9)
             {
@@ -1583,7 +1700,7 @@ internal class Problems
         digits = new int[digits.Length + 1];
         digits[0] = 1;
         return digits;
-        
+
 
 
     }
@@ -1598,10 +1715,10 @@ internal class Problems
 
         int left = 0;
         int right = nums.Length;
-        if (target > nums[right - 1]) 
+        if (target > nums[right - 1])
             return right;
 
-        while(left <= right)
+        while (left <= right)
         {
             int mid = (left + right) / 2;
 
@@ -1652,7 +1769,7 @@ internal class Problems
         {
             return prev;
         }
-        
+
 
         ListNode tmp = node.next;
         node.next = prev;
@@ -1709,11 +1826,11 @@ internal class Problems
     //24. Swap Nodes in Pairs
     public ListNode SwapPairs(ListNode head)
     {
-        if(head == null)
+        if (head == null)
         {
             return null;
         }
-        if(head.next == null)
+        if (head.next == null)
         {
             return head;
         }
@@ -1730,7 +1847,7 @@ internal class Problems
         headPtr = left;
         ListNode prevNode = right;
 
-        while(right != null && nextNode != null)
+        while (right != null && nextNode != null)
         {
             left = nextNode;
             right = left.next;
@@ -1756,9 +1873,9 @@ internal class Problems
 
         List<ListNode> temp = new List<ListNode>();
 
-        foreach(ListNode l in lists)
+        foreach (ListNode l in lists)
         {
-            if(l != null)
+            if (l != null)
                 temp.Add(l);
         }
 
@@ -1790,12 +1907,12 @@ internal class Problems
                     {
                         currentLowest = currentHead.val;
                         lowestID = i;
-                        
+
                     }
                 }
-                
+
             }
-            if(finished) break;
+            if (finished) break;
 
             output.next = new ListNode(currentLowest);
             output = output.next;
@@ -1823,7 +1940,7 @@ internal class Problems
 
     void genParen(string str, int left, int right, List<string> list, int validClose)
     {
-        
+
         if (left == 0 && right == 0)
         {
             list.Add(str);
@@ -1946,13 +2063,13 @@ internal class Problems
         int i = 0;
         int j = 0;
         //while both readheads can read
-        while(i < s.Length && j < s.Length)
+        while (i < s.Length && j < s.Length)
         {
             //current forward read head value
             char c = s[j];
 
             //if forward key is unique
-            if(!dict.ContainsKey(c))
+            if (!dict.ContainsKey(c))
             {
                 //add to dict and advance forward read head
                 dict[c] = 1;
@@ -1964,7 +2081,7 @@ internal class Problems
             {
                 //check if new length record
                 int count = dict.Count;
-                if(count > best)
+                if (count > best)
                 {
                     best = count;
                 }
@@ -2003,9 +2120,9 @@ internal class Problems
         while (i < nums1.Length || j < nums2.Length)
         {
             //if both read heads are reading a value
-            if(i < nums1.Length && j < nums2.Length)
+            if (i < nums1.Length && j < nums2.Length)
             {
-                if(nums1[i] < nums2[j])
+                if (nums1[i] < nums2[j])
                 {
                     nums3[k++] = nums1[i++];
                 }
@@ -2014,11 +2131,11 @@ internal class Problems
                     nums3[k++] = nums2[j++];
                 }
             }
-            else if(i >= nums1.Length)
+            else if (i >= nums1.Length)
             {
                 nums3[k++] = nums2[j++];
             }
-            else if(j >= nums2.Length)
+            else if (j >= nums2.Length)
             {
                 nums3[k++] = nums1[i++];
             }
@@ -2027,8 +2144,8 @@ internal class Problems
         double sum = 0;
         if (nums3.Length % 2 == 0)
         {
-            int x = nums3[(nums3.Length - 1)/ 2];
-            int y = nums3[(nums3.Length - 1)/ 2 + 1];
+            int x = nums3[(nums3.Length - 1) / 2];
+            int y = nums3[(nums3.Length - 1) / 2 + 1];
             sum = x + y;
             sum /= 2;
         }
@@ -2049,22 +2166,22 @@ internal class Problems
         int j = 1;
         string longest = "";
 
-        while(i < s.Length )
+        while (i < s.Length)
         {
             string curr = s.Substring(i, j);
             Console.WriteLine("looking at : " + curr);
 
             bool pal = isPalindrome(curr);
-            if(pal)
+            if (pal)
             {
-                if(curr.Length > longest.Length)
+                if (curr.Length > longest.Length)
                 {
                     longest = curr;
                 }
             }
 
             j++;
-            if(j + i > s.Length)
+            if (j + i > s.Length)
             {
                 j = 1;
                 i++;
@@ -2091,7 +2208,7 @@ internal class Problems
     //#6. Zigzag Conversion
     public string Convert(string s, int numRows)
     {
-        char[,] chars = new char[s.Length * numRows,numRows];
+        char[,] chars = new char[s.Length * numRows, numRows];
 
         int i = 0;
         bool dirDown = true;
@@ -2113,7 +2230,7 @@ internal class Problems
             {
                 dirDown = true;
             }
-            else if(y == numRows - 1)
+            else if (y == numRows - 1)
             {
                 dirDown = false;
             }
@@ -2132,21 +2249,21 @@ internal class Problems
             {
                 y++;
             }
-            else if(dirDown && y == numRows - 1)
+            else if (dirDown && y == numRows - 1)
             {
                 y--;
                 x++;
             }
-            else if(!dirDown && y == 0)
+            else if (!dirDown && y == 0)
             {
                 y++;
                 x++;
             }
-            else if(!dirDown && y != 0)
+            else if (!dirDown && y != 0)
             {
                 y--;
                 x++;
-                
+
             }
 
 
@@ -2154,10 +2271,10 @@ internal class Problems
 
 
             i++;
-            
+
         }
 
-        
+
 
         Print2DCharArray(chars);
         for (int ii = 0; ii < chars.GetLength(1); ii++)
@@ -2165,7 +2282,7 @@ internal class Problems
             for (int jj = 0; jj < chars.GetLength(0); jj++)
             {
                 char c = chars[jj, ii];
-                if(c != '\0')
+                if (c != '\0')
                 {
                     output += c;
                 }
@@ -2180,18 +2297,18 @@ internal class Problems
 
     public void Print2DCharArray(char[,] arr)
     {
-        for(int i = 0; i < arr.GetLength(1); i++)
+        for (int i = 0; i < arr.GetLength(1); i++)
         {
-            for(int j = 0; j < arr.GetLength(0);j++)
+            for (int j = 0; j < arr.GetLength(0); j++)
             {
                 char c = arr[j, i];
-                if(c == '\0')
+                if (c == '\0')
                 {
                     c = '_';
                 }
 
                 Console.Write(c);
-               
+
             }
             Console.WriteLine();
         }
@@ -2201,15 +2318,15 @@ internal class Problems
 
 
 
-        for(int i = 0; i < list.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
             IList<int> subList = list[i];
-            for(int j = 0; j < subList.Count;j++)
+            for (int j = 0; j < subList.Count; j++)
             {
                 object obj = subList[j];
 
                 Console.Write(obj);
-               
+
             }
             Console.WriteLine();
         }
@@ -2222,7 +2339,7 @@ internal class Problems
         //bool neg = x < 0 ? true : false;
         int output = 0;
 
-        while(x != 0)
+        while (x != 0)
         {
             int last = x % 10;
             int prevOutput = output;
@@ -2230,7 +2347,7 @@ internal class Problems
 
             output = output * 10 + last;
 
-            if((output - last) / 10 != prevOutput)
+            if ((output - last) / 10 != prevOutput)
             {
                 return 0;
             }
@@ -2247,7 +2364,7 @@ internal class Problems
         Console.WriteLine("Start string: " + s);
         int output = 0;
         s = s.Trim();
-        if(s.Length == 0)
+        if (s.Length == 0)
         {
             return 0;
         }
@@ -2285,7 +2402,7 @@ internal class Problems
             if ((output - curr) / 10 != prevOutput || output < 0)
             {
                 Console.WriteLine("overflow");
-                if(neg)
+                if (neg)
                 {
                     return Int32.MinValue;
                 }
@@ -2295,7 +2412,7 @@ internal class Problems
                 }
             }
         }
-        
+
         return output * (neg ? -1 : 1);
 
     }
@@ -2303,7 +2420,7 @@ internal class Problems
 
 
     //118. Pascal's Triangle
-    public IList<IList<int>> Generate(int numRows)    
+    public IList<IList<int>> Generate(int numRows)
     {
         List<IList<int>> triangle = new List<IList<int>>();
         if (numRows == 0)
@@ -2313,14 +2430,14 @@ internal class Problems
 
         triangle.Add(new List<int>() { 1 });
 
-        for(int i = 1; i < numRows; i++)
+        for (int i = 1; i < numRows; i++)
         {
             IList<int> previousList = triangle[i - 1];
             List<int> newList = new List<int>() { 1 };
 
-            for(int j = 1; j < i; j++)
+            for (int j = 1; j < i; j++)
             {
-                newList.Add(previousList[j-1] + previousList[j]);
+                newList.Add(previousList[j - 1] + previousList[j]);
 
             }
 
@@ -2340,9 +2457,9 @@ internal class Problems
         int backHead = 0;
         int forwardHead = height.Length - 1;
 
-        while(backHead < forwardHead)
+        while (backHead < forwardHead)
         {
-            
+
             int i = height[backHead];
             int j = height[forwardHead];
             int dist = forwardHead - backHead;
@@ -2377,7 +2494,7 @@ internal class Problems
         String[] roman = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
 
         int i = 0;
-        while(num > 0)
+        while (num > 0)
         {
             while (integer[i] <= num)
             {
@@ -2426,27 +2543,27 @@ internal class Problems
         romanValues.Add('D', 500);
         romanValues.Add('M', 1000);
 
-        
+
         int prev = 0;
-        while(s.Length > 0)
+        while (s.Length > 0)
         {
-          //  Console.WriteLine(String.Format("S: {0}, output: {1}",s, output));
+            //  Console.WriteLine(String.Format("S: {0}, output: {1}",s, output));
             int current = romanValues[s[s.Length - 1]];
-          //  Console.WriteLine(String.Format("prev: {0}, Current: {1}",prev, current));
+            //  Console.WriteLine(String.Format("prev: {0}, Current: {1}",prev, current));
             if (prev > current)
             {
                 output -= current;
-          //      Console.WriteLine(String.Format("Prev was smaller than curr, new output: {0}",output));
+                //      Console.WriteLine(String.Format("Prev was smaller than curr, new output: {0}",output));
             }
             else
             {
                 output += current;
-          //      Console.WriteLine(String.Format("Prev was bigger than curr, new output: {0}", output));
+                //      Console.WriteLine(String.Format("Prev was bigger than curr, new output: {0}", output));
             }
             prev = current;
-            
+
             s = s.Substring(0, s.Length - 1);
-           // Console.WriteLine(String.Format("new Prev: {0}, newOutput: {1}, new s: {2}",prev, output, s));
+            // Console.WriteLine(String.Format("new Prev: {0}, newOutput: {1}, new s: {2}",prev, output, s));
         }
 
         return output;
@@ -2512,13 +2629,13 @@ internal class Problems
         int bestDiff = int.MaxValue;
         Array.Sort(nums);
 
-        for(int left = 0; left < nums.Length - 2; left++)
+        for (int left = 0; left < nums.Length - 2; left++)
         {
 
             int mid = left + 1;
             int right = nums.Length - 1;
 
-            while(mid < right)
+            while (mid < right)
             {
                 int sum = nums[left] + nums[mid] + nums[right];
 
@@ -2530,17 +2647,17 @@ internal class Problems
                 int diff = Math.Abs(target - sum);
 
 
-                if(diff < bestDiff)
+                if (diff < bestDiff)
                 {
                     bestDiff = diff;
                     output = sum;
                 }
 
-                if(sum < target)
+                if (sum < target)
                 {
                     mid++;
                 }
-                else if(sum > target)
+                else if (sum > target)
                 {
                     right--;
                 }
@@ -2590,18 +2707,18 @@ internal class Problems
     //19. Remove Nth Node From End of List
     public ListNode RemoveNthFromEnd(ListNode head, int n)
     {
-        if(head.next == null && n == 1)
+        if (head.next == null && n == 1)
         {
             return null;
         }
-        
+
         ListNode outputHead = head;
         ListNode right = outputHead.next;
         ListNode left = head;
         int steps = 0;
-        while(right != null)
+        while (right != null)
         {
-            if(steps != n - 1)
+            if (steps != n - 1)
             {
                 right = right.next;
                 steps++;
@@ -2609,7 +2726,7 @@ internal class Problems
             else
             {
                 //at last step
-                if(right.next == null)
+                if (right.next == null)
                 {
                     left.next = left.next.next;
                     return outputHead;
@@ -2622,7 +2739,7 @@ internal class Problems
             }
 
         }
-        if(left == head)
+        if (left == head)
         {
             return head.next;
         }
@@ -2635,10 +2752,10 @@ internal class Problems
     public bool IsValid(string s)
     {
         Stack<char> stack = new Stack<char>();
-        
-        foreach(char c in s)
+
+        foreach (char c in s)
         {
-            switch(c)
+            switch (c)
             {
                 case '{':
                 case '(':
@@ -2648,12 +2765,12 @@ internal class Problems
                 case '}':
                 case ']':
                 case ')':
-                    if(stack.Count == 0)
+                    if (stack.Count == 0)
                     {
                         return false;
                     }
                     char top = stack.Pop();
-                    if(top != oppositeParenthesis(c))
+                    if (top != oppositeParenthesis(c))
                     {
                         return false;
                     }
@@ -2675,7 +2792,7 @@ internal class Problems
         switch (c)
         {
             case '}':
-                return '{'; 
+                return '{';
             case ')':
                 return '(';
             case ']':
@@ -2698,11 +2815,11 @@ internal class Problems
         ListNode sorted = new ListNode();
         ListNode sortedHead = sorted;
 
-        while(list1 != null || list2 != null)
+        while (list1 != null || list2 != null)
         {
-            if(list1 != null && list2 != null)
+            if (list1 != null && list2 != null)
             {
-                if(list1.val < list2.val)
+                if (list1.val < list2.val)
                 {
 
                     sorted.next = new ListNode(list1.val);
@@ -2717,7 +2834,7 @@ internal class Problems
                     list2 = list2.next;
                 }
             }
-            else if(list1 != null)
+            else if (list1 != null)
             {
                 sorted.next = new ListNode(list1.val);
                 sorted = sorted.next;
