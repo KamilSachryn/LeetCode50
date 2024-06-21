@@ -17,11 +17,15 @@ internal class Problems
 
 
 
-        string s = "ccaccc";
+        string s = "catsanddog";
         List<string> dict = new List<string>();
-        dict.Add("cc");
-        dict.Add("ac");
+        dict.Add("cats");
+        dict.Add("dog");
+        dict.Add("sand");
+        dict.Add("and");
+        dict.Add("cat");
         Console.WriteLine(WordBreak(s, dict));
+
 
 
     }
@@ -29,45 +33,43 @@ internal class Problems
     //139. Word Break
     public bool WordBreak(string s, IList<string> wordDict)
     {
-        //make sure to go through every word and not accidentally remove words thats are part of another
-        while (wordDict.Count > 0)
+        bool[] table = new bool[s.Length + 1];
+        table[0] = true;
+
+
+        for(int i = 1; i <= s.Length; i++)
         {
-            string testString = s;
-            //check if each word is in the string individually
-            foreach (string word in wordDict)
+            for(int j = 0; j < i; j++)
+
             {
+                string sub = s.Substring(j, i - j);
+                Console.WriteLine(sub);
 
-                Console.WriteLine("Checking string " + testString + " for " + word);
-                //remove every instance of the current word
-                //ISSUE: need to make sure we dont just remove left to right
 
-                MatchCollection coll = Regex.Matches(testString, word);
-
-                foreach(Match match in coll)
+                if (table[j] == true && wordDict.Contains(sub))
                 {
-                    Regex regex = new Regex(word);
-                    string firstHalf = testString.Substring(0, match.Index);
-                    string secondHalf = testString.Substring(match.Index);
-                    secondHalf = regex.Replace(secondHalf, "", 1);
-                    testString = firstHalf + secondHalf;
+                    table[i] = true;
+                    break;
                 }
-
-                if (testString.Trim().Length == 0)
-                    return true;
-
-
 
 
             }
 
-            wordDict.RemoveAt(0);
+
         }
 
-        return false;
-
+        return table[s.Length];
 
 
     }
+
+
+    public string MySubString(string s, int start, int end)
+    {
+        return s.Substring(start, end - start);
+    }
+
+
 
 
 
