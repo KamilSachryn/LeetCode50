@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
@@ -18,14 +19,41 @@ internal class Problems
 
 
         string s = "catsanddog";
-        List<string> dict = new List<string>();
-        dict.Add("cats");
-        dict.Add("dog");
-        dict.Add("sand");
-        dict.Add("and");
-        dict.Add("cat");
-        Console.WriteLine(WordBreak(s, dict));
 
+        string b = "cats";
+
+        Console.WriteLine(CanConstruct(b, s));
+
+
+
+    }
+
+    //383. Ransom Note
+    public bool CanConstruct(string ransomNote, string magazine)
+    {
+        Dictionary<char, int> dict = new Dictionary<char, int>();
+
+        
+        foreach(char c in magazine)
+        {
+
+           // int dictVal = 0;
+            dict.TryGetValue(c, out int dictVal);
+            dict[c] = dictVal + 1;
+
+
+
+        }
+
+        foreach(char c in ransomNote)
+        {
+            if(!dict.ContainsKey(c) || dict[c]-- == 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
 
 
     }
