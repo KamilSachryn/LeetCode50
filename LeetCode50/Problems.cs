@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -18,13 +19,56 @@ internal class Problems
 
 
 
-        string s = "catsanddog";
+        string s = "bbbaaa";
 
-        string b = "cats";
+        string b = "aaabbb";
 
-        Console.WriteLine(CanConstruct(b, s));
+        Console.WriteLine(IsIsomorphic(b, s));
 
 
+
+    }
+
+    //205. Isomorphic Strings
+    public bool IsIsomorphic(string s, string t)
+    {
+
+        Dictionary<char, char> mapStoT = new Dictionary<char, char>();
+        Dictionary<char, char> mapTtoS = new Dictionary<char, char>();
+
+
+        for(int i = 0; i < s.Length; i++)
+        {
+            char a = s[i];
+            char b = t[i];
+
+            if(mapStoT.ContainsKey(a))
+            {
+                if (mapStoT[a] != b)
+                    return false;
+
+            }
+            else
+            {
+                mapStoT.Add(a, b);
+            }
+
+            if(mapTtoS.ContainsKey(b))
+            {
+                if (mapTtoS[b] != a)
+                    return false;
+            }
+            else
+            {
+                mapTtoS.Add(b, a);
+            }
+
+
+
+
+        }
+
+        return true;
 
     }
 
