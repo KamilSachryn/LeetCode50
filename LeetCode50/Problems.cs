@@ -29,6 +29,40 @@ internal class Problems
 
     }
 
+    //242. Valid Anagram
+    public bool IsAnagram(string s, string t)
+    {
+        Dictionary<char, int> dict = new Dictionary<char, int>();
+
+
+
+        foreach(char c in s)
+        {
+            dict.TryGetValue(c, out int n);
+            dict[c] = n + 1;
+        }
+
+
+        foreach (char c in t)
+        {
+            dict.TryGetValue(c, out int n);
+            dict[c] = n - 1;
+        }
+
+
+        foreach(char c in dict.Keys)
+        {
+            if (dict[c] != 0)
+                return false;
+        }
+
+        return true;
+
+
+
+    }
+
+
     //290. Word Pattern
     public bool WordPattern(string pattern, string s)
     {
@@ -64,7 +98,7 @@ internal class Problems
 
         //O(n)
         if(dict.Values.Count != (new HashSet<String>(dict.Values).Count))
-            {
+        {
             return false;
         }
 
