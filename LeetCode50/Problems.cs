@@ -29,6 +29,54 @@ internal class Problems
 
     }
 
+    //290. Word Pattern
+    public bool WordPattern(string pattern, string s)
+    {
+        //O(1)
+        Dictionary<char, string> dict = new Dictionary<char, string>();
+
+        //O(n)
+        List<String> splitString = s.Split(' ').ToList();
+
+        //O(1)
+        if (pattern.Length != splitString.Count)
+            return false;
+
+        //O(n)
+        for(int i = 0; i < pattern.Length; i++)
+        {
+            char currChar = pattern[i];
+            string currString = splitString[i];
+
+            if (dict.ContainsKey(currChar))
+            {
+                if (dict[currChar] != currString)
+                    return false;
+            }
+            else
+            {
+                dict[currChar] = currString;
+            }
+
+
+        }
+
+
+        //O(n)
+        if(dict.Values.Count != (new HashSet<String>(dict.Values).Count))
+            {
+            return false;
+        }
+
+
+        return true;
+
+
+
+
+    }
+
+
     //205. Isomorphic Strings
     public bool IsIsomorphic(string s, string t)
     {
