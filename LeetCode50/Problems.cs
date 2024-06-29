@@ -22,12 +22,101 @@ internal class Problems
         string s = "bbbaaa";
 
         string b = "aaabbb";
-
-        Console.WriteLine(IsIsomorphic(b, s));
-
+       IsSubsequence("abc", "ahbgdc");
 
 
     }
+
+
+    // 392. Is Subsequence
+    public bool IsSubsequence(string s, string t)
+    {
+        if (s.Length == 0)
+            return true;
+
+        int j = 0;
+        for(int i = 0; i < t.Length; i++)
+        {
+            //if have match
+            if (t[i] == s[j])
+            {
+                j++;
+            }
+
+            if (j == s.Length)
+                return true;
+
+        }
+        return false;
+
+
+    }
+
+    //509. Fibonacci Number
+    public int Fib(int n)
+    {
+
+        if (n == 0)
+            return 0;
+
+
+
+        int[] arr = new int[n];
+
+        arr[0] = 1;
+        arr[1] = 1;
+
+        for(int i = 2; i < n; i++)
+        {
+            arr[i] = arr[i - 1] + arr[i - 2];
+        }
+
+        return arr[n - 1];
+
+
+    }
+
+    // 49. Group Anagrams
+    public IList<IList<string>> GroupAnagrams(string[] strs)
+    {
+        int[] primes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101 };
+
+        Dictionary<BigInteger, List<String>> dict = new Dictionary<BigInteger, List<String>>();
+
+        foreach(string str in strs)
+        {
+            
+            BigInteger currNum = 1;
+
+            foreach(char c in str)
+            {
+                int i = c - 'a';
+
+                currNum *= primes[i];
+            }
+
+            if(dict.ContainsKey(currNum))
+            {
+                dict[currNum].Add(str);
+            }
+            else
+            {
+                dict[currNum] = new List<string>() { str};
+            }           
+        }
+
+        IList<IList<String>> output = new List<IList<string>>();
+        foreach(List<String> i in dict.Values)
+        {
+            output.Add(i);
+        }
+
+
+        return output;
+
+
+    }
+
 
     //242. Valid Anagram
     public bool IsAnagram(string s, string t)
