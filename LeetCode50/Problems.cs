@@ -22,7 +22,69 @@ internal class Problems
         string s = "bbbaaa";
 
         string b = "aaabbb";
-       IsSubsequence("abc", "ahbgdc");
+      Console.WriteLine( SelfDividingNumbers(1,22));
+
+
+    }
+
+    //728. Self Dividing Numbers
+    public IList<int> SelfDividingNumbers(int left, int right)
+    {
+        List<int> list = new List<int>();
+
+        for (int i = left; i <= right; i++)
+        {
+            bool bad = false;
+            string num = i.ToString();
+            if(num.Contains('0'))
+            {
+                continue;
+            }
+            foreach(char c in num)
+            {
+                if(i % (c - '0') != 0)
+                {
+                    bad = true;
+                    break;
+                }
+            }
+
+            if (!bad)
+                list.Add(i);
+
+
+
+        }
+
+
+
+        return list;
+    }
+
+    //1137. N-th Tribonacci Number
+    public int Tribonacci(int n)
+    {
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return 1;
+        if (n == 2)
+            return 1;
+
+
+        int three = 0;
+        int two = 1;
+        int one = 1;
+        int zero = three + two + one;
+        for(int i = 3; i <= n; i++)
+        {
+            zero = three + two + one;
+            three = two;
+            two = one;
+            one = zero;
+        }
+
+        return zero;
 
 
     }
