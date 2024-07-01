@@ -22,10 +22,49 @@ internal class Problems
         string s = "bbbaaa";
 
         string b = "aaabbb";
-      Console.WriteLine( SelfDividingNumbers(1,22));
+      Console.WriteLine( MaximumOddBinaryNumber("01010"));
 
 
     }
+    //2864. Maximum Odd Binary Number
+    public string MaximumOddBinaryNumber(string s)
+    {
+        int countOnes = 0;
+        int countZeroes = 0;
+        foreach(char c in s)
+        {
+            if (c == '1')
+                countOnes++;
+            else
+                countZeroes++;
+        }
+        countOnes--;
+
+        string output = " ";
+
+        while(countOnes > 0 || countZeroes >0)
+        {
+            if (countOnes > 0)
+            {
+                output = output.Insert(output.Length - 1, "1");
+                countOnes--;
+            }
+            else
+            {
+                output = output.Insert(output.Length - 1, "0");
+                countZeroes--;
+            }
+
+
+        }
+        output = output.Insert(output.Length - 1, "1");
+
+        return output.Trim();
+
+
+    }
+
+
 
     //728. Self Dividing Numbers
     public IList<int> SelfDividingNumbers(int left, int right)
