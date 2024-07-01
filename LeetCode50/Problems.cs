@@ -29,37 +29,39 @@ internal class Problems
     //2864. Maximum Odd Binary Number
     public string MaximumOddBinaryNumber(string s)
     {
-        int countOnes = 0;
-        int countZeroes = 0;
-        foreach(char c in s)
+        string output = "1";
+
+        bool first1 = true;
+        int insertIndex = 0;
+
+        for(int i = 0; i < s.Length; i++)
         {
-            if (c == '1')
-                countOnes++;
-            else
-                countZeroes++;
-        }
-        countOnes--;
-
-        string output = " ";
-
-        while(countOnes > 0 || countZeroes >0)
-        {
-            if (countOnes > 0)
+            if(s[i] == '1')
             {
-                output = output.Insert(output.Length - 1, "1");
-                countOnes--;
+                if(first1)
+                {
+                    first1 = false;
+                }
+                else
+                {
+                    output = output.Insert(0, "1");
+                    insertIndex++;
+                }
+                
+
             }
-            else
+            else //s[i] == 0
             {
-                output = output.Insert(output.Length - 1, "0");
-                countZeroes--;
+                output = output.Insert(insertIndex, "0");
+
             }
 
 
         }
-        output = output.Insert(output.Length - 1, "1");
 
-        return output.Trim();
+
+
+        return output;
 
 
     }
