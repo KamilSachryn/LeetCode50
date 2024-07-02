@@ -22,10 +22,38 @@ internal class Problems
         string s = "bbbaaa";
 
         string b = "aaabbb";
-      Console.WriteLine( MaximumOddBinaryNumber("01010"));
+      Console.WriteLine(CanJump(new int[] {2,3,1,1,4,0,0,0,0,0,0,0,0,0}));
 
 
     }
+    //55. Jump Game
+    public bool CanJump(int[] nums)
+    {
+        //[2][3][1][1][4]
+
+        if (nums.Length <= 1)
+            return true;
+        int highestReachable = nums[0];
+
+        for (int i = 1; i <= highestReachable; i++)
+        {
+            if (nums[i] + i > highestReachable)
+            {
+                highestReachable = nums[i] + i;
+            }
+
+            if (highestReachable >= nums.Length)
+                return true;
+
+        }
+
+        return false;
+
+
+
+    }
+
+
     //2864. Maximum Odd Binary Number
     public string MaximumOddBinaryNumber(string s)
     {
