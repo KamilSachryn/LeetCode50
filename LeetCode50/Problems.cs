@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Tracing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -19,13 +20,42 @@ internal class Problems
 
 
 
-        string s = "bbbaaa";
-
-        string b = "aaabbb";
-      Console.WriteLine(CanJump(new int[] {2,3,1,1,4,0,0,0,0,0,0,0,0,0}));
+        foreach (string s in SortPeople(new string[] { "a", "b", "c" }, new int[] { 3, 1, 2 }))
+        {
+            Console.WriteLine(s);
+        }
 
 
     }
+
+    //2418. Sort the People
+    public string[] SortPeople(string[] names, int[] heights)
+    {
+        string[] output = new string[names.Length];
+        Dictionary<int, String> dict = new Dictionary<int, string>();
+
+        for(int i = 0; i < names.Length; i++)
+        {
+            dict[heights[i]] = names[i];
+        }
+
+        int j =0;
+
+        Array.Sort(heights);
+        Array.Reverse(heights);
+
+        foreach(int k in heights)
+        {
+            output[j++] = dict[k];
+        }
+
+      
+
+        return output;
+
+    }
+
+
     //55. Jump Game
     public bool CanJump(int[] nums)
     {
