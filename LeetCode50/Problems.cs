@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Diagnostics.Tracing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -20,11 +21,26 @@ internal class Problems
 
 
 
-        foreach (string s in SortPeople(new string[] { "a", "b", "c" }, new int[] { 3, 1, 2 }))
+        Console.Write(TitleToNumber("AA"));
+
+
+    }
+
+
+    //171. Excel Sheet Column Number
+    public int TitleToNumber(string columnTitle)
+    {
+        if (columnTitle.Length == 0)
+            return 0;
+        int total = 0;
+        foreach(char c in columnTitle)
         {
-            Console.WriteLine(s);
+            total += ((c - 'A') + 1) + ('Z' - 'A');
         }
 
+        total -= ('Z' - 'A');
+
+        return total;
 
     }
 
