@@ -21,7 +21,15 @@ internal class Problems
 
 
 
-        Console.Write(TitleToNumber("AA"));
+        Console.Write(TitleToNumber("ZY"));
+
+
+    }
+
+    //136. Single Number
+    public int SingleNumber(int[] nums)
+    {
+        return 0;
 
 
     }
@@ -32,13 +40,19 @@ internal class Problems
     {
         if (columnTitle.Length == 0)
             return 0;
-        int total = 0;
-        foreach(char c in columnTitle)
-        {
-            total += ((c - 'A') + 1) + ('Z' - 'A');
-        }
 
-        total -= ('Z' - 'A');
+        int total = 0;
+
+        int revIndex = columnTitle.Length - 1;
+
+        for(int i = 0; i < columnTitle.Length; i++)
+        {
+            char c = columnTitle[i];
+            int val = c - 'A' + 1;
+
+            total += val * (int)(Math.Pow(26, revIndex--));
+        }
+        
 
         return total;
 
