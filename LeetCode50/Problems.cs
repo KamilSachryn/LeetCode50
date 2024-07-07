@@ -21,7 +21,7 @@ internal class Problems
 
 
 
-        Console.Write(TitleToNumber("ZY"));
+        Console.Write(SingleNumber(new int[] {1,2,3,4,1,2,3,4,5}));
 
 
     }
@@ -29,7 +29,18 @@ internal class Problems
     //136. Single Number
     public int SingleNumber(int[] nums)
     {
-        return 0;
+        HashSet<int> result = new HashSet<int>();
+
+        foreach(int num in nums)
+        {
+            if (result.Contains(num))
+                result.Remove(num);
+            else
+                result.Add(num);
+        }
+
+
+        return result.ToArray()[0];
 
 
     }
@@ -51,6 +62,9 @@ internal class Problems
             int val = c - 'A' + 1;
 
             total += val * (int)(Math.Pow(26, revIndex--));
+            // X_baseN = X[0]*10^(len-1) + x[1]*10^(len-2) + ... + x[len-1]+10^(0)
+       
+
         }
         
 
