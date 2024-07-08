@@ -21,7 +21,40 @@ internal class Problems
 
 
 
-        Console.Write(SingleNumber(new int[] {1,2,3,4,1,2,3,4,5}));
+        Console.Write(SumOfMultiples(10));
+
+
+    }
+
+
+    //2652. Sum Multiples
+    public int SumOfMultiples(int n)
+    {
+        bool[] sieve = new bool[n + 1];
+
+        for(int i = 3; i <= n; i+=3)
+        {
+            sieve[i] = true;
+        }        
+        for(int i = 5; i <= n; i+=5)
+        {
+            sieve[i] = true;
+        }        
+        for(int i = 7; i <= n; i+=7)
+        {
+            sieve[i] = true;
+        }
+
+        int sum = 0;
+        for(int i = 1; i <= n; i++)
+        {
+            if (sieve[i])
+            {
+                sum += i;
+            }
+        }
+
+        return sum;
 
 
     }
