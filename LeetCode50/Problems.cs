@@ -21,7 +21,45 @@ internal class Problems
 
 
 
-        Console.Write(SumOfMultiples(10));
+        Console.Write(BalancedStringSplit("LLLLRRRR"));
+
+
+    }
+
+    //1221. Split a String in Balanced Strings
+    public int BalancedStringSplit(string s)
+    {
+        int lCount = 0;
+        int rCOunt = 0;
+        int output = 0;
+
+
+        for(int i = 0; i < s.Length; i++)
+        {
+            char c = s[i];
+            if(c == 'R')
+            {
+
+                rCOunt++;
+
+            }
+            else //c == L
+            {
+                lCount++;
+            }
+
+            if(lCount > 0 && rCOunt > 0 && lCount == rCOunt)
+            {
+                output++;
+                lCount = 0;
+                rCOunt = 0;
+            }
+
+
+        }
+
+        return output;
+
 
 
     }
