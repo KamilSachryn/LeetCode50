@@ -21,7 +21,49 @@ internal class Problems
 
 
 
-        Console.Write(BalancedStringSplit("LLLLRRRR"));
+        Console.Write(ReverseOnlyLetters("Test1ng-Leet=code-Q!"));
+
+
+    }
+
+
+    //917. Reverse Only Letters
+    public string ReverseOnlyLetters(string s)
+    {
+        Stack<char> stack = new Stack<char>();
+
+
+        for(int i = 0; i < s.Length; i++)
+        {
+            char current = s[i];
+
+            if (char.IsLetter(current))
+            {
+                stack.Push(current);
+            }
+
+        }
+
+        String output = "";
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            char current = s[i];
+
+            if (char.IsLetter(current))
+            {
+                output += stack.Pop();
+            }
+            else
+            {
+                output += s[i];
+            }
+
+        }
+
+        return output;
+
+
 
 
     }
