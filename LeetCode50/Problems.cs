@@ -21,14 +21,43 @@ internal class Problems
 
 
 
-        Console.Write(ReverseOnlyLetters("Test1ng-Leet=code-Q!"));
 
 
     }
 
 
-    //917. Reverse Only Letters
-    public string ReverseOnlyLetters(string s)
+    //495. Teemo Attacking
+    public int FindPoisonedDuration(int[] timeSeries, int duration)
+    {
+
+
+        int total = 0;
+        int currentPoisonedUntil = timeSeries[timeSeries.Length - 1] + duration;
+        for (int i = timeSeries.Length - 1; i >= 0; i--)
+        {
+
+            int curr = timeSeries[i];
+
+            if (currentPoisonedUntil > curr)
+            {
+                total += Math.Min(duration, currentPoisonedUntil - curr);
+            }
+
+
+            currentPoisonedUntil = curr;
+        }
+
+
+        return total;
+
+    }
+
+
+
+
+
+        //917. Reverse Only Letters
+        public string ReverseOnlyLetters(string s)
     {
         Stack<char> stack = new Stack<char>();
 
