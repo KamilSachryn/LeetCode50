@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Diagnostics.Tracing;
+using System.Linq.Expressions;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
@@ -18,9 +19,59 @@ internal class Problems
     int n1115 = 5;
     public void currentProblem()
     {
+        int[] arr = { 1, 0,0, 2, 3, 0, 4, 5, 0 };
+
+        DuplicateZeros(arr);
 
 
 
+
+    }
+
+
+    //1089. Duplicate Zeros
+    public void DuplicateZeros(int[] arr)
+    {
+
+        foreach (int k in arr)
+        {
+            Console.Write(k + ", ");
+        }
+        Console.WriteLine();
+        Console.WriteLine();
+
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            int curr = arr[i];
+
+            if (curr == 0)
+            {
+
+
+                for (int j = arr.Length - 1; j > i; j--)
+                {
+                    arr[j] = arr[j-1];
+                }
+
+                i += 1;
+            }
+
+            foreach (int k in arr)
+            {
+                Console.Write(k + ", ");
+            }
+            Console.WriteLine();
+
+        }
+
+
+        Console.WriteLine();
+        foreach (int k in arr)
+        {
+            Console.Write(k + ", ");
+        }
+        Console.WriteLine();
 
 
     }
