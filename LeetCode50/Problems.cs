@@ -21,13 +21,28 @@ internal class Problems
     {
         int[] arr = { 1, 0,0, 2, 3, 0, 4, 5, 0 };
 
-        DuplicateZeros(arr);
 
-        IsUgly(6);
 
 
     }
+    //268. Missing Number
+    public int MissingNumber(int[] nums)
+    {
+        bool[] foundNums = new bool[nums.Length +  1];
+        foreach(int i in nums)
+        {
+            foundNums[i] = true;
+        }
 
+        for(int i = 0; i < foundNums.Length;  i++)
+        {
+            if (!foundNums[i])
+                return i;
+        }
+
+        return -1;
+
+    }
 
     //263. Ugly Number
     public bool IsUgly(int n)
