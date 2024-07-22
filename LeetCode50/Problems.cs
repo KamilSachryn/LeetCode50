@@ -21,8 +21,38 @@ internal class Problems
     {
         int[] arr = { 1, 0,0, 2, 3, 0, 4, 5, 0 };
 
-        Console.WriteLine(ConvertToBase7(8));
+        Console.WriteLine(CheckPerfectNumber(28));
 
+    }
+
+
+    //507. Perfect Number
+    public bool CheckPerfectNumber(int num)
+    {
+        double sqrt = Math.Sqrt(num);
+
+        int sum = 1;
+
+
+        for(int i = 2; i <= sqrt; i++)
+        {
+            if(num % i == 0)
+            {
+                sum += i;
+
+
+                int complement = num / i;
+                if(complement != i)
+                {
+                    sum += complement;
+                }
+
+            }
+
+
+        }
+
+        return sum == num;
 
     }
 
