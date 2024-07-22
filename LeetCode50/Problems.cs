@@ -21,7 +21,34 @@ internal class Problems
     {
         int[] arr = { 1, 0,0, 2, 3, 0, 4, 5, 0 };
 
+        Console.WriteLine(ConvertToBase7(8));
 
+
+    }
+
+
+    //504. Base 7
+    public string ConvertToBase7(int num)
+    {
+        bool isNeg = num < 0;
+
+        string output = "";
+        if (num == 0)
+            return "0";
+
+        while(num != 0)
+        {
+            int remainder = num % 7;
+            remainder = Math.Abs(remainder);
+            num = num / 7;
+            output = output.Insert(0, remainder.ToString());
+        }
+
+        if(isNeg)
+        {
+            output = output.Insert(0, "-");
+        }
+        return output;
 
 
     }
