@@ -25,6 +25,34 @@ internal class Problems
 
 
     }
+
+
+    //217. Contains Duplicate
+    public bool ContainsDuplicate(int[] nums)
+    {
+
+        HashSet<int> set = new HashSet<int>();
+
+        foreach(int i in nums)
+        {
+            if(set.Contains(i))
+            {
+                return true;
+            }
+            else
+            {
+                set.Add(i);
+            }
+        }
+
+
+        return false;
+
+
+
+    }
+
+
     //268. Missing Number
     public int MissingNumber(int[] nums)
     {
