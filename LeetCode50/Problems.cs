@@ -24,6 +24,41 @@ internal class Problems
         Console.WriteLine(CheckPerfectNumber(28));
 
     }
+    //141. Linked List Cycle
+    public bool HasCycle(ListNode head)
+    {
+        if(head == null || head.next == null)
+        {
+            return false;
+        }
+        ListNode slow = head;
+
+        ListNode fast = head.next;
+
+        while(slow != null && fast != null)
+        {
+            if (slow.GetHashCode() == fast.GetHashCode())
+            {
+                return true;
+            }
+
+            if(fast.next == null || slow.next == null || fast.next.next == null)
+            {
+                return false;
+            }
+
+            fast = fast.next.next;
+            slow = slow.next;
+
+
+        }
+
+
+        return false;
+
+
+    }
+
 
 
     //507. Perfect Number
