@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Diagnostics.Tracing;
+using System.IO.Pipes;
 using System.Linq.Expressions;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -19,11 +20,72 @@ internal class Problems
     int n1115 = 5;
     public void currentProblem()
     {
-        int[] arr = { 1, 0,0, 2, 3, 0, 4, 5, 0 };
+        string input = "(10+5)";
 
-        Console.WriteLine(CheckPerfectNumber(28));
+        Console.WriteLine(calculate(input));
 
     }
+
+    //224. Basic Calculator
+    public int calculate(String s)
+    {
+        s = s.Replace(" ", "");
+        int ans = 0;
+        int currNum = 0;
+        int sign = 1;
+        Stack<int> stack = new Stack<int>();
+
+        foreach(char c in s)
+        {
+            Console.WriteLine(ans);
+            if(Char.IsDigit(c))
+            {
+                currNum *= 10;
+                currNum += c - '0';
+            }
+            else if(c == '+')
+            {
+                ans += sign * currNum;
+                currNum = 0;
+                sign = 1;
+            }
+            else if(c == '-')
+            {
+                ans += sign * currNum;
+                currNum = 0;
+                sign = -1;
+            }
+            else if(c == '(')
+            {
+                stack.Push(ans);
+                stack.Push(sign);
+
+                ans = 0;
+                sign = 1;
+            }
+            else if(c == ')')
+            {
+                ans += sign * currNum;
+                currNum = 0;
+
+                int stackSign = stack.Pop();
+                int stackAns = stack.Pop();
+
+                ans += stackSign * stackAns;
+
+
+            }
+        }
+
+        if(currNum != 0)
+        {
+            ans += sign * currNum;
+        }
+
+        return ans;
+    }
+
+
     //141. Linked List Cycle
     public bool HasCycle(ListNode head)
     {
