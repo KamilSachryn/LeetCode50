@@ -20,7 +20,7 @@ internal class Problems
     int n1115 = 5;
     public void currentProblem()
     {
-        string input = "(10+5)";
+        string input = "(1+(4+5+2)-3)+(6+8)";
 
         Console.WriteLine(calculate(input));
 
@@ -71,7 +71,8 @@ internal class Problems
                 int stackSign = stack.Pop();
                 int stackAns = stack.Pop();
 
-                ans += stackSign * stackAns;
+                ans *= stackSign;
+                ans += stackAns;
 
 
             }
