@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,14 +21,122 @@ internal class Problems
     int n1115 = 5;
     public void currentProblem()
     {
-        string input = "(1+(4+5+2)-3)+(6+8)";
+        string input = "3+2*2";
 
-        Console.WriteLine(calculate(input));
+        Console.WriteLine(CalculateBasicOperators(input));
 
     }
 
+
+    public int CalculateBasicOperators(string s)
+    {
+        s = s.Replace(" ", "");
+
+        List<string> strings = new List<string>();
+
+        string stringBuilder = "";
+        foreach(char c in s)
+        {
+            if(Char.IsDigit(c))
+            {
+                stringBuilder += c;
+
+            }
+            else
+            {
+                strings.Add(stringBuilder);
+                stringBuilder = "";
+                strings.Add(c.ToString());
+            }
+        }
+        if(stringBuilder.Length > 0)
+        {
+            strings.Add(stringBuilder);
+        }
+
+
+
+
+        Console.WriteLine();
+        bool flag = true;
+        while (flag)
+        {
+            foreach(String str in strings)
+            {
+                Console.Write(str);
+            }
+            Console.WriteLine();
+
+            flag = false;
+            List<string> strings2 = new List<string>(strings);
+            for (int i = 0; i < strings.Count; i++)
+            {
+                string curr = strings[i];
+
+                if (curr == "*")
+                {
+                    int product = int.Parse(strings[i - 1]) * int.Parse(strings[i + 1]);
+                    strings2[i - 1] = product.ToString();
+                    strings2.RemoveAt(i);
+                    strings2.RemoveAt(i);
+                    flag = true;
+                    break;
+                }
+                else if (curr == "/")
+                {
+                    int quotient = int.Parse(strings[i - 1]) / int.Parse(strings[i + 1]);
+                    strings2[i - 1] = quotient.ToString();
+                    strings2.RemoveAt(i);
+                    strings2.RemoveAt(i);
+                    flag = true;
+                    break;
+                }
+            
+            }
+            strings = strings2;
+        }
+
+        flag = true;
+        while (flag)
+        {
+            flag = false;
+            List<string> strings2 = new List<string>(strings);
+            for (int i = 0; i < strings.Count; i++)
+            {
+                string curr = strings[i];
+
+                if (curr == "+")
+                {
+                    int sum = int.Parse(strings[i - 1]) + int.Parse(strings[i + 1]);
+                    strings2[i - 1] = sum.ToString();
+                    strings2.RemoveAt(i);
+                    strings2.RemoveAt(i);
+                    flag = true;
+                    break;
+                }
+                else if (curr == "-")
+                {
+                    int diff = int.Parse(strings[i - 1]) - int.Parse(strings[i + 1]);
+                    strings2[i - 1] = diff.ToString();
+                    strings2.RemoveAt(i);
+                    strings2.RemoveAt(i);
+                    flag = true;
+                    break;
+                }
+
+            }
+            strings = strings2;
+        }
+
+
+
+                       
+
+        return int.Parse(strings[0]);
+    }
+
     //224. Basic Calculator
-    public int calculate(String s)
+    public int calculateAdditionSubParen(String s)
     {
         s = s.Replace(" ", "");
         int ans = 0;
