@@ -34,7 +34,7 @@ internal class Problems
 
         List<string> strings = new List<string>();
 
-        string stringBuilder = "";
+        string stringBuilder = ""; 
         foreach(char c in s)
         {
             if(Char.IsDigit(c))
@@ -54,80 +54,70 @@ internal class Problems
             strings.Add(stringBuilder);
         }
 
+        Stack<int> stack = new Stack<int>();
 
+        int sign = -;
 
-
-        Console.WriteLine();
-        bool flag = true;
-        while (flag)
+        for(int i = 0; i  < strings.Count; i++)
         {
-            foreach(String str in strings)
-            {
-                Console.Write(str);
-            }
-            Console.WriteLine();
 
-            flag = false;
-            List<string> strings2 = new List<string>(strings);
-            for (int i = 0; i < strings.Count; i++)
+            if (strings[i][0] == '*')
             {
-                string curr = strings[i];
 
-                if (curr == "*")
-                {
-                    int product = int.Parse(strings[i - 1]) * int.Parse(strings[i + 1]);
-                    strings2[i - 1] = product.ToString();
-                    strings2.RemoveAt(i);
-                    strings2.RemoveAt(i);
-                    flag = true;
-                    break;
-                }
-                else if (curr == "/")
-                {
-                    int quotient = int.Parse(strings[i - 1]) / int.Parse(strings[i + 1]);
-                    strings2[i - 1] = quotient.ToString();
-                    strings2.RemoveAt(i);
-                    strings2.RemoveAt(i);
-                    flag = true;
-                    break;
-                }
-            
             }
-            strings = strings2;
+            else if (strings[i][0] == '/')
+            {
+
+            }
+            else if (strings[i][0] == '+')
+            {
+                sign = 1;
+            }
+            else if (strings[i][0] == '-')
+            {
+                sign = -1;
+            }
+            else
+            {
+                
+                if(sign == 0)
+                {
+                    stack.Push(int.Parse(strings[i]));
+                }
+                else if(sign == 1)
+                {
+                    if(strings.Count < i + 1)
+                    {
+                        if (strings[i+1] == "*")
+                        {
+                            strings[i] = (int.Parse(strings[i]) * int.Parse(strings[i + 2])).ToString();
+                            strings.RemoveAt(i + 1);
+                            strings.RemoveAt(i + 1);
+                        }
+                        else if (strings[i + 1] == "/")
+                        {
+                            strings[i] = (int.Parse(strings[i]) / int.Parse(strings[i + 2])).ToString();
+                            strings.RemoveAt(i + 1);
+                            strings.RemoveAt(i + 1);
+                        }
+                        else if(stack.Count != 0)
+                        {
+                            strings[i-2] =  
+                        }
+
+                    }
+                }
+                else if(sign == -1)
+                {
+
+                }
+
+            }
+
+
+
+
         }
-
-        flag = true;
-        while (flag)
-        {
-            flag = false;
-            List<string> strings2 = new List<string>(strings);
-            for (int i = 0; i < strings.Count; i++)
-            {
-                string curr = strings[i];
-
-                if (curr == "+")
-                {
-                    int sum = int.Parse(strings[i - 1]) + int.Parse(strings[i + 1]);
-                    strings2[i - 1] = sum.ToString();
-                    strings2.RemoveAt(i);
-                    strings2.RemoveAt(i);
-                    flag = true;
-                    break;
-                }
-                else if (curr == "-")
-                {
-                    int diff = int.Parse(strings[i - 1]) - int.Parse(strings[i + 1]);
-                    strings2[i - 1] = diff.ToString();
-                    strings2.RemoveAt(i);
-                    strings2.RemoveAt(i);
-                    flag = true;
-                    break;
-                }
-
-            }
-            strings = strings2;
-        }
-
 
 
                        
