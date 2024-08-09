@@ -21,12 +21,60 @@ internal class Problems
     int n1115 = 5;
     public void currentProblem()
     {
-        string input = "3+2*2";
+        string input = "199100199";
 
-        Console.WriteLine(CalculateBasicOperators(input));
+        Console.WriteLine(IsAdditiveNumber(input));
 
     }
 
+
+    //306. Additive Number
+    public bool IsAdditiveNumber(string num)
+    {
+        //guess first two numbers, check if rest fit
+        int maxLen = num.Length / 2;
+
+        for(int i = 1; i  <= maxLen; i++)
+        {
+            for(int j =  1; j <= maxLen; j++)
+            {
+                string str1 = num.Substring(0, i);
+                string str2 = num.Substring(i, j);
+                Console.WriteLine(str1 + " " + str2);
+                if (str1[0] == '0' || str2[0] == '0')
+                    continue;
+
+                int num1 = int.Parse(str1);
+                int num2 = int.Parse(str2);
+
+                bool good = true;
+                string remainingNum = num.Substring(i + j, num.Length - i + j);
+
+                while (good)
+                {
+                    int sum = num1 + num2;
+                    string remainingNum = 
+                    Console.WriteLine("Remain: " + remainingNum);
+
+
+
+
+                }
+
+
+
+            }
+
+
+        }
+
+
+        return false;
+
+
+
+
+    }
 
     public int CalculateBasicOperators(string s)
     {
@@ -56,7 +104,7 @@ internal class Problems
 
         Stack<int> stack = new Stack<int>();
 
-        int sign = -;
+        int sign = -1;
 
         for(int i = 0; i  < strings.Count; i++)
         {
@@ -102,7 +150,7 @@ internal class Problems
                         }
                         else if(stack.Count != 0)
                         {
-                            strings[i-2] =  
+                          //  strings[i-2] =  
                         }
 
                     }
