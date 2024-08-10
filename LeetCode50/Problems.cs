@@ -48,12 +48,26 @@ internal class Problems
                 int num2 = int.Parse(str2);
 
                 bool good = true;
-                string remainingNum = num.Substring(i + j, num.Length - i + j);
-
+                string remainingNum = num.Substring(i + j, num.Length - i - j);
+                if (remainingNum.Length == 0)
+                    continue;
                 while (good)
                 {
+                    if (remainingNum.Length == 0)
+                        return true;
                     int sum = num1 + num2;
-                    string remainingNum = 
+                    string newStr = sum.ToString();
+                    if (remainingNum.Length - newStr.Length >= 0 && remainingNum.Substring(0, newStr.Length).Equals(newStr))
+                    {
+                        remainingNum = remainingNum.Substring(newStr.Length, remainingNum.Length - newStr.Length);
+
+
+                    }
+                    else
+                    {
+                        good = false;
+                    }
+
                     Console.WriteLine("Remain: " + remainingNum);
 
 
